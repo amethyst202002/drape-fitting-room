@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#FAF9F7">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>DRAPE — Virtual Fitting Room</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg:          #FAF9F7;
+      --color-surface:     #FFFFFF;
+      --color-surface-2:   #F4F1EC;
+      --color-border:      #E8E2D9;
+      --color-sage:        #8A9E8C;
+      --color-sage-light:  #C8D8C9;
+      --color-sage-dark:   #5A7A5C;
+      --color-beige:       #C9B99A;
+      --color-beige-light: #EDE7DC;
+      --color-beige-dark:  #9A8060;
+      --color-text:        #2C2825;
+      --color-text-muted:  #8A7F74;
+      --color-text-light:  #B5ADA3;
+      --color-accent:      #8A9E8C;
+      --color-cta:         #3D3530;
+      --color-cta-hover:   #5A4F48;
+      --color-danger:      #C97A6A;
+      --color-gold:        #C4A96D;
+      --radius-sm:         8px;
+      --radius-md:         14px;
+      --radius-lg:         20px;
+      --radius-xl:         28px;
+      --radius-pill:       999px;
+      --shadow-sm:         0 1px 4px rgba(44,40,37,0.07);
+      --shadow-md:         0 4px 16px rgba(44,40,37,0.10);
+      --shadow-lg:         0 12px 40px rgba(44,40,37,0.14);
+      --font-display:      'Cormorant Garamond', Georgia, serif;
+      --font-body:         'Inter', system-ui, sans-serif;
+      --transition:        0.22s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: #E0D8D0;
+      color: var(--color-text);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    #root {
+      max-width: 430px;
+      margin: 0 auto;
+      min-height: 100vh;
+      position: relative;
+      background: var(--color-bg);
+      box-shadow: 0 0 60px rgba(0,0,0,0.15);
+      overflow-x: hidden;
+    }
+
+    @media (max-width: 430px) {
+      body { background: var(--color-bg); }
+      #root { box-shadow: none; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar         { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track   { background: var(--color-surface-2); }
+    ::-webkit-scrollbar-thumb   { background: var(--color-sage-light); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-sage); }
+
+    /* Hide scrollbar for horizontal scroll containers */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+
+    /* Keyframe Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); opacity: 0; }
+      to   { transform: translateY(0);   opacity: 1; }
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-20px); opacity: 0; }
+      to   { transform: translateY(0);    opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    @keyframes shimmer {
+      0%   { background-position: -200% 0; }
+      100% { background-position:  200% 0; }
+    }
+
+    @keyframes dotBounce {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-6px); }
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    @keyframes scaleIn {
+      from { transform: scale(0.95); opacity: 0; }
+      to   { transform: scale(1);    opacity: 1; }
+    }
+
+    /* Range input global styling */
+    input[type=range] {
+      -webkit-appearance: none;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--color-sage-light);
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--color-beige-dark);
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+
+    input[type=range]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--color-beige-dark);
+      cursor: pointer;
+      border: 2px solid white;
+    }
+
+    /* Base element resets */
+    button       { font-family: var(--font-body); }
+    input        { font-family: var(--font-body); }
+    select       { font-family: var(--font-body); }
+    textarea     { font-family: var(--font-body); }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <!-- React 18 + ReactDOM + Babel Standalone -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- App modules: order matters — data first, then components, then shell -->
+  <script type="text/babel" src="mockData.js"></script>
+  <script type="text/babel" src="UniversalRack.jsx"></script>
+  <script type="text/babel" src="FittingRoom.jsx"></script>
+  <script type="text/babel" src="AIStylist.jsx"></script>
+  <script type="text/babel" src="App.jsx"></script>
+
+  <!-- Mount -->
+  <script type="text/babel">
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(React.createElement(App));
+  </script>
+</body>
+</html>

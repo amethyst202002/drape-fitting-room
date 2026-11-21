@@ -1,26 +1,26 @@
-// App.jsx — Global App Shell & State Manager
+﻿// App.jsx — Global App Shell & State Manager
 // No import/export — global Babel CDN scope
 
-const { useState: useAppState, useCallback: useAppCallback } = React;
+const { useState: useState, useCallback: useCallback } = React;
 
 function App() {
-  const [universalRack, setUniversalRack]   = useAppState(INITIAL_STATE.universalRack);
-  const [virtualCloset, setVirtualCloset]   = useAppState(INITIAL_STATE.virtualCloset);
-  const [activeOutfit, setActiveOutfit]     = useAppState([]);
-  const [modelConfig, setModelConfig]       = useAppState(INITIAL_STATE.modelConfig);
-  const [generations, setGenerations]       = useAppState(MOCK_GENERATIONS);
-  const [currentScreen, setCurrentScreen]  = useAppState('rack');
-  const [isStylistOpen, setIsStylistOpen]  = useAppState(false);
-  const [stylingOptions, setStylingOptions] = useAppState({});
-  const [toasts, setToasts]                = useAppState([]);
+  const [universalRack, setUniversalRack]   = useState(INITIAL_STATE.universalRack);
+  const [virtualCloset, setVirtualCloset]   = useState(INITIAL_STATE.virtualCloset);
+  const [activeOutfit, setActiveOutfit]     = useState([]);
+  const [modelConfig, setModelConfig]       = useState(INITIAL_STATE.modelConfig);
+  const [generations, setGenerations]       = useState(MOCK_GENERATIONS);
+  const [currentScreen, setCurrentScreen]  = useState('rack');
+  const [isStylistOpen, setIsStylistOpen]  = useState(false);
+  const [stylingOptions, setStylingOptions] = useState({});
+  const [toasts, setToasts]                = useState([]);
 
-  const showToast = useAppCallback((message) => {
+  const showToast = useCallback((message) => {
     const id = Date.now() + Math.random();
     setToasts(prev => [...prev, { id, message }]);
     setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3000);
   }, []);
 
-  const handleAddItem = useAppCallback((item) => {
+  const handleAddItem = useCallback((item) => {
     setActiveOutfit(prev => {
       if (prev.some(i => i.id === item.id)) return prev;
       showToast(item.name + ' added to your look!');
@@ -28,11 +28,11 @@ function App() {
     });
   }, [showToast]);
 
-  const handleRemoveItem = useAppCallback((id) => {
+  const handleRemoveItem = useCallback((id) => {
     setActiveOutfit(prev => prev.filter(i => i.id !== id));
   }, []);
 
-  const handleImportScreenshot = useAppCallback(({ file, dataUrl }) => {
+  const handleImportScreenshot = useCallback(({ file, dataUrl }) => {
     // The dataUrl IS the image — use it directly so the item shows the real screenshot
     const name = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ') || 'Screenshot Item';
     const newItem = {
@@ -51,24 +51,36 @@ function App() {
     showToast('Screenshot added to your rack! 📸');
   }, [showToast]);
 
-  const handleImportUrl = useAppCallback((url) => {
+  const handleImportUrl = useCallback((url, fetchedItem) => {
     const domain = (() => { try { return new URL(url).hostname.replace('www.',''); } catch(e) { return 'store'; } })();
-    const newItem = {
+    const newItem = fetchedItem ? {
+      // Use real fetched data
       id: 'imported-' + Date.now(),
-      name: 'Imported Item',
-      brand: domain || 'Online Store',
+      name: fetchedItem.name,
+      brand: fetchedItem.brand,
+      price: fetchedItem.price || 'See site',
+      category: 'top',
+      styling_type: null,
+      owned: false,
+      imageUrl: fetchedItem.imageUrl,
+      sourceUrl: url,
+    } : {
+      // Fallback mock
+      id: 'imported-' + Date.now(),
+      name: 'Item from ' + domain,
+      brand: domain,
       price: 'See site',
       category: 'top',
-      styling_type: 'tuckable',
+      styling_type: null,
       owned: false,
       imageUrl: 'https://picsum.photos/seed/import' + Date.now() + '/400/500',
       sourceUrl: url,
     };
     setUniversalRack(prev => [newItem, ...prev]);
-    showToast('Item imported from ' + domain + '! 🎉');
+    showToast((fetchedItem ? fetchedItem.name : 'Item') + ' added from ' + domain + '! 🎉');
   }, [showToast]);
 
-  const handleUploadOwn = useAppCallback((file) => {
+  const handleUploadOwn = useCallback((file) => {
     const newItem = {
       id: 'closet-uploaded-' + Date.now(),
       name: file ? file.name.replace(/\.[^.]+$/, '') : 'My Item',
@@ -84,19 +96,19 @@ function App() {
     showToast('Added to your closet! 👗');
   }, [showToast]);
 
-  const handleChangeModel = useAppCallback((config) => {
+  const handleChangeModel = useCallback((config) => {
     setModelConfig(config);
     showToast('Model updated!');
   }, [showToast]);
 
-  const handleUpdateStylingOption = useAppCallback((itemId, option, value) => {
+  const handleUpdateStylingOption = useCallback((itemId, option, value) => {
     setStylingOptions(prev => ({
       ...prev,
       [itemId]: { ...(prev[itemId] || {}), [option]: value },
     }));
   }, []);
 
-  const handleVisualize = useAppCallback(() => {
+  const handleVisualize = useCallback(() => {
     const newGen = {
       id: 'gen-' + Date.now(),
       timestamp: new Date().toISOString(),
@@ -107,7 +119,7 @@ function App() {
     setGenerations(prev => [newGen, ...prev]);
   }, [activeOutfit]);
 
-  const handleShopLook = useAppCallback(() => {
+  const handleShopLook = useCallback(() => {
     showToast('Opening checkout for ' + activeOutfit.length + ' items... 🛍️');
   }, [activeOutfit, showToast]);
 
@@ -186,3 +198,4 @@ function App() {
     </div>
   );
 }
+

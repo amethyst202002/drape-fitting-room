@@ -1,40 +1,5 @@
-﻿<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#FAF9F7">
-<title>DRAPE - Virtual Fitting Room</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>:root{--color-bg:#FAF9F7;--color-surface:#FFFFFF;--color-surface-2:#F4F1EC;--color-border:#E8E2D9;--color-sage:#8A9E8C;--color-sage-light:#C8D8C9;--color-sage-dark:#5A7A5C;--color-beige:#C9B99A;--color-beige-light:#EDE7DC;--color-beige-dark:#9A8060;--color-text:#2C2825;--color-text-muted:#8A7F74;--color-text-light:#B5ADA3;--color-cta:#3D3530;--color-cta-hover:#5A4F48;--color-danger:#C97A6A;--color-gold:#C4A96D;--color-accent:#8A9E8C;--radius-sm:8px;--radius-md:14px;--radius-lg:20px;--radius-xl:28px;--radius-pill:999px;--shadow-sm:0 1px 4px rgba(44,40,37,.07);--shadow-md:0 4px 16px rgba(44,40,37,.10);--shadow-lg:0 12px 40px rgba(44,40,37,.14);--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Inter',system-ui,sans-serif;--transition:.22s cubic-bezier(.4,0,.2,1)}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;overflow-x:hidden}
-body{font-family:var(--font-body);background:#E0D8D0;color:var(--color-text);-webkit-font-smoothing:antialiased}
-#root{max-width:430px;margin:0 auto;min-height:100vh;position:relative;background:var(--color-bg);box-shadow:0 0 60px rgba(0,0,0,.15);overflow-x:hidden}
-@media(max-width:430px){body{background:var(--color-bg)}#root{box-shadow:none}}
-::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--color-surface-2)}::-webkit-scrollbar-thumb{background:var(--color-sage-light);border-radius:4px}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
-@keyframes slideDown{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-@keyframes dotBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:var(--color-sage-light);outline:none;cursor:pointer}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--color-beige-dark);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
-button,input,select,textarea{font-family:var(--font-body)}</style>
-</head>
-<body>
-<div id="root"></div>
-<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-<script type="text/babel">
-// === ONE shared React destructure ===
-const { useState, useEffect, useRef, useCallback, useMemo } = React;
+﻿<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#FAF9F7"><title>DRAPE - Virtual Fitting Room</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"><style>:root{--color-bg:#FAF9F7;--color-surface:#FFFFFF;--color-surface-2:#F4F1EC;--color-border:#E8E2D9;--color-sage:#8A9E8C;--color-sage-light:#C8D8C9;--color-sage-dark:#5A7A5C;--color-beige:#C9B99A;--color-beige-light:#EDE7DC;--color-beige-dark:#9A8060;--color-text:#2C2825;--color-text-muted:#8A7F74;--color-text-light:#B5ADA3;--color-cta:#3D3530;--color-cta-hover:#5A4F48;--color-danger:#C97A6A;--color-gold:#C4A96D;--color-accent:#8A9E8C;--radius-sm:8px;--radius-md:14px;--radius-lg:20px;--radius-xl:28px;--radius-pill:999px;--shadow-sm:0 1px 4px rgba(44,40,37,.07);--shadow-md:0 4px 16px rgba(44,40,37,.10);--shadow-lg:0 12px 40px rgba(44,40,37,.14);--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Inter',system-ui,sans-serif;--transition:.22s cubic-bezier(.4,0,.2,1)}*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}html,body{height:100%;overflow-x:hidden}body{font-family:var(--font-body);background:#E0D8D0;color:var(--color-text);-webkit-font-smoothing:antialiased}#root{max-width:430px;margin:0 auto;min-height:100vh;position:relative;background:var(--color-bg);box-shadow:0 0 60px rgba(0,0,0,.15);overflow-x:hidden}@media(max-width:430px){body{background:var(--color-bg)}#root{box-shadow:none}}::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--color-surface-2)}::-webkit-scrollbar-thumb{background:var(--color-sage-light);border-radius:4px}@keyframes fadeIn{from{opacity:0}to{opacity:1}}@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}@keyframes slideDown{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}@keyframes dotBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:var(--color-sage-light);outline:none;cursor:pointer}input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--color-beige-dark);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}button,input,select,textarea{font-family:var(--font-body)}</style></head><body><div id="root"></div><script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script><script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script><script src="https://unpkg.com/@babel/standalone/babel.min.js"></script><script type="text/babel">const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
-// === MOCK DATA ===
 // mockData.js — Global mock state for DRAPE Virtual Fitting Room
 // No import/export — loaded as global script via Babel CDN
 
@@ -123,7 +88,6 @@ const MOCK_GENERATIONS = [
 ];
 
 
-// === UNIVERSAL RACK ===
 // UniversalRack.jsx — Screen 1: Home / Universal Rack
 // No import/export — global Babel CDN scope
 
@@ -154,15 +118,47 @@ function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUr
   const ownedCount = rack.filter(i => i.owned).length;
 
   const handleImport = () => {
+    if (!importUrl.trim()) return;
     setImportStep(1);
-    setTimeout(() => {
-      setImportedItem({ name:'Floral Midi Dress', brand:'Zara', price:'$89', imageUrl:'https://picsum.photos/seed/import1/400/500' });
-      setImportStep(2);
-    }, 1500);
+    // Use microlink.io to fetch real Open Graph metadata from the product URL
+    const apiUrl = 'https://api.microlink.io?url=' + encodeURIComponent(importUrl.trim());
+    fetch(apiUrl)
+      .then(r => r.json())
+      .then(data => {
+        const d = data.data || {};
+        const name  = d.title || d.description || 'Product';
+        const img   = (d.image && d.image.url) ? d.image.url : null;
+        const brand = d.publisher || d.author || ((() => { try { return new URL(importUrl).hostname.replace('www.',''); } catch(e) { return 'Store'; } })());
+        const price = d.price || '';
+        setImportedItem({
+          name:     name.length > 60 ? name.slice(0, 60) + '...' : name,
+          brand:    brand,
+          price:    price || 'See site',
+          imageUrl: img || 'https://picsum.photos/seed/import' + Date.now() + '/400/500',
+          sourceUrl: importUrl.trim(),
+        });
+        setImportStep(2);
+      })
+      .catch(() => {
+        // Fallback: use URL domain + placeholder
+        const domain = (() => { try { return new URL(importUrl).hostname.replace('www.',''); } catch(e) { return 'Store'; } })();
+        setImportedItem({
+          name: 'Product from ' + domain,
+          brand: domain,
+          price: 'See site',
+          imageUrl: 'https://picsum.photos/seed/import' + Date.now() + '/400/500',
+          sourceUrl: importUrl.trim(),
+        });
+        setImportStep(2);
+      });
   };
 
   const handleAddFromModal = () => {
-    onImportUrl(importUrl || 'https://zara.com/product/floral-dress');
+    if (importedItem) {
+      onImportUrl(importUrl, importedItem);
+    } else {
+      onImportUrl(importUrl);
+    }
     setShowImportModal(false);
     setImportStep(0);
     setImportUrl('');
@@ -402,7 +398,6 @@ function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUr
 }
 
 
-// === FITTING ROOM ===
 // FittingRoom.jsx — Screen 2: The Core Fitting Engine
 // No import/export — global Babel CDN scope
 
@@ -676,7 +671,6 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
 }
 
 
-// === AI STYLIST ===
 // AIStylist.jsx — Screen 3: AI Stylist Chat Drawer
 // No import/export — global Babel CDN scope
 
@@ -904,7 +898,6 @@ function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOu
 
 
 
-// === APP SHELL ===
 // App.jsx — Global App Shell & State Manager
 // No import/export — global Babel CDN scope
 
@@ -958,21 +951,33 @@ function App() {
     showToast('Screenshot added to your rack! 📸');
   }, [showToast]);
 
-  const handleImportUrl = useCallback((url) => {
+  const handleImportUrl = useCallback((url, fetchedItem) => {
     const domain = (() => { try { return new URL(url).hostname.replace('www.',''); } catch(e) { return 'store'; } })();
-    const newItem = {
+    const newItem = fetchedItem ? {
+      // Use real fetched data
       id: 'imported-' + Date.now(),
-      name: 'Imported Item',
-      brand: domain || 'Online Store',
+      name: fetchedItem.name,
+      brand: fetchedItem.brand,
+      price: fetchedItem.price || 'See site',
+      category: 'top',
+      styling_type: null,
+      owned: false,
+      imageUrl: fetchedItem.imageUrl,
+      sourceUrl: url,
+    } : {
+      // Fallback mock
+      id: 'imported-' + Date.now(),
+      name: 'Item from ' + domain,
+      brand: domain,
       price: 'See site',
       category: 'top',
-      styling_type: 'tuckable',
+      styling_type: null,
       owned: false,
       imageUrl: 'https://picsum.photos/seed/import' + Date.now() + '/400/500',
       sourceUrl: url,
     };
     setUniversalRack(prev => [newItem, ...prev]);
-    showToast('Item imported from ' + domain + '! 🎉');
+    showToast((fetchedItem ? fetchedItem.name : 'Item') + ' added from ' + domain + '! 🎉');
   }, [showToast]);
 
   const handleUploadOwn = useCallback((file) => {
@@ -1096,8 +1101,4 @@ function App() {
 
 
 
-// === MOUNT ===
-ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
-</script>
-</body>
-</html>
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));</script></body></html>

@@ -28,15 +28,47 @@ function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUr
   const ownedCount = rack.filter(i => i.owned).length;
 
   const handleImport = () => {
+    if (!importUrl.trim()) return;
     setImportStep(1);
-    setTimeout(() => {
-      setImportedItem({ name:'Floral Midi Dress', brand:'Zara', price:'$89', imageUrl:'https://picsum.photos/seed/import1/400/500' });
-      setImportStep(2);
-    }, 1500);
+    // Use microlink.io to fetch real Open Graph metadata from the product URL
+    const apiUrl = 'https://api.microlink.io?url=' + encodeURIComponent(importUrl.trim());
+    fetch(apiUrl)
+      .then(r => r.json())
+      .then(data => {
+        const d = data.data || {};
+        const name  = d.title || d.description || 'Product';
+        const img   = (d.image && d.image.url) ? d.image.url : null;
+        const brand = d.publisher || d.author || ((() => { try { return new URL(importUrl).hostname.replace('www.',''); } catch(e) { return 'Store'; } })());
+        const price = d.price || '';
+        setImportedItem({
+          name:     name.length > 60 ? name.slice(0, 60) + '...' : name,
+          brand:    brand,
+          price:    price || 'See site',
+          imageUrl: img || 'https://picsum.photos/seed/import' + Date.now() + '/400/500',
+          sourceUrl: importUrl.trim(),
+        });
+        setImportStep(2);
+      })
+      .catch(() => {
+        // Fallback: use URL domain + placeholder
+        const domain = (() => { try { return new URL(importUrl).hostname.replace('www.',''); } catch(e) { return 'Store'; } })();
+        setImportedItem({
+          name: 'Product from ' + domain,
+          brand: domain,
+          price: 'See site',
+          imageUrl: 'https://picsum.photos/seed/import' + Date.now() + '/400/500',
+          sourceUrl: importUrl.trim(),
+        });
+        setImportStep(2);
+      });
   };
 
   const handleAddFromModal = () => {
-    onImportUrl(importUrl || 'https://zara.com/product/floral-dress');
+    if (importedItem) {
+      onImportUrl(importUrl, importedItem);
+    } else {
+      onImportUrl(importUrl);
+    }
     setShowImportModal(false);
     setImportStep(0);
     setImportUrl('');

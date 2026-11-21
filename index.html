@@ -1,185 +1,1115 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#FAF9F7">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>DRAPE — Virtual Fitting Room</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --color-bg:          #FAF9F7;
-      --color-surface:     #FFFFFF;
-      --color-surface-2:   #F4F1EC;
-      --color-border:      #E8E2D9;
-      --color-sage:        #8A9E8C;
-      --color-sage-light:  #C8D8C9;
-      --color-sage-dark:   #5A7A5C;
-      --color-beige:       #C9B99A;
-      --color-beige-light: #EDE7DC;
-      --color-beige-dark:  #9A8060;
-      --color-text:        #2C2825;
-      --color-text-muted:  #8A7F74;
-      --color-text-light:  #B5ADA3;
-      --color-accent:      #8A9E8C;
-      --color-cta:         #3D3530;
-      --color-cta-hover:   #5A4F48;
-      --color-danger:      #C97A6A;
-      --color-gold:        #C4A96D;
-      --radius-sm:         8px;
-      --radius-md:         14px;
-      --radius-lg:         20px;
-      --radius-xl:         28px;
-      --radius-pill:       999px;
-      --shadow-sm:         0 1px 4px rgba(44,40,37,0.07);
-      --shadow-md:         0 4px 16px rgba(44,40,37,0.10);
-      --shadow-lg:         0 12px 40px rgba(44,40,37,0.14);
-      --font-display:      'Cormorant Garamond', Georgia, serif;
-      --font-body:         'Inter', system-ui, sans-serif;
-      --transition:        0.22s cubic-bezier(0.4,0,0.2,1);
+      --color-bg:#FAF9F7; --color-surface:#FFFFFF; --color-surface-2:#F4F1EC;
+      --color-border:#E8E2D9; --color-sage:#8A9E8C; --color-sage-light:#C8D8C9;
+      --color-sage-dark:#5A7A5C; --color-beige:#C9B99A; --color-beige-light:#EDE7DC;
+      --color-beige-dark:#9A8060; --color-text:#2C2825; --color-text-muted:#8A7F74;
+      --color-text-light:#B5ADA3; --color-cta:#3D3530; --color-cta-hover:#5A4F48;
+      --color-danger:#C97A6A; --color-gold:#C4A96D; --color-accent:#8A9E8C;
+      --radius-sm:8px; --radius-md:14px; --radius-lg:20px; --radius-xl:28px;
+      --radius-pill:999px;
+      --shadow-sm:0 1px 4px rgba(44,40,37,0.07);
+      --shadow-md:0 4px 16px rgba(44,40,37,0.10);
+      --shadow-lg:0 12px 40px rgba(44,40,37,0.14);
+      --font-display:'Cormorant Garamond',Georgia,serif;
+      --font-body:'Inter',system-ui,sans-serif;
+      --transition:0.22s cubic-bezier(0.4,0,0.2,1);
     }
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html, body {
-      height: 100%;
-      overflow-x: hidden;
-    }
-
-    body {
-      font-family: var(--font-body);
-      background: #E0D8D0;
-      color: var(--color-text);
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    #root {
-      max-width: 430px;
-      margin: 0 auto;
-      min-height: 100vh;
-      position: relative;
-      background: var(--color-bg);
-      box-shadow: 0 0 60px rgba(0,0,0,0.15);
-      overflow-x: hidden;
-    }
-
-    @media (max-width: 430px) {
-      body { background: var(--color-bg); }
-      #root { box-shadow: none; }
-    }
-
-    /* Scrollbar */
-    ::-webkit-scrollbar         { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track   { background: var(--color-surface-2); }
-    ::-webkit-scrollbar-thumb   { background: var(--color-sage-light); border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: var(--color-sage); }
-
-    /* Hide scrollbar for horizontal scroll containers */
-    .no-scrollbar::-webkit-scrollbar { display: none; }
-
-    /* Keyframe Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-
-    @keyframes slideUp {
-      from { transform: translateY(100%); opacity: 0; }
-      to   { transform: translateY(0);   opacity: 1; }
-    }
-
-    @keyframes slideDown {
-      from { transform: translateY(-20px); opacity: 0; }
-      to   { transform: translateY(0);    opacity: 1; }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50%       { opacity: 0.4; }
-    }
-
-    @keyframes shimmer {
-      0%   { background-position: -200% 0; }
-      100% { background-position:  200% 0; }
-    }
-
-    @keyframes dotBounce {
-      0%, 100% { transform: translateY(0); }
-      50%       { transform: translateY(-6px); }
-    }
-
-    @keyframes spin {
-      from { transform: rotate(0deg); }
-      to   { transform: rotate(360deg); }
-    }
-
-    @keyframes scaleIn {
-      from { transform: scale(0.95); opacity: 0; }
-      to   { transform: scale(1);    opacity: 1; }
-    }
-
-    /* Range input global styling */
-    input[type=range] {
-      -webkit-appearance: none;
-      height: 4px;
-      border-radius: 2px;
-      background: var(--color-sage-light);
-      outline: none;
-      cursor: pointer;
-    }
-
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--color-beige-dark);
-      cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
-    }
-
-    input[type=range]::-moz-range-thumb {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--color-beige-dark);
-      cursor: pointer;
-      border: 2px solid white;
-    }
-
-    /* Base element resets */
-    button       { font-family: var(--font-body); }
-    input        { font-family: var(--font-body); }
-    select       { font-family: var(--font-body); }
-    textarea     { font-family: var(--font-body); }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%;overflow-x:hidden}
+    body{font-family:var(--font-body);background:#E0D8D0;color:var(--color-text);-webkit-font-smoothing:antialiased}
+    #root{max-width:430px;margin:0 auto;min-height:100vh;position:relative;background:var(--color-bg);box-shadow:0 0 60px rgba(0,0,0,0.15);overflow-x:hidden}
+    @media(max-width:430px){body{background:var(--color-bg)}#root{box-shadow:none}}
+    ::-webkit-scrollbar{width:4px;height:4px}
+    ::-webkit-scrollbar-track{background:var(--color-surface-2)}
+    ::-webkit-scrollbar-thumb{background:var(--color-sage-light);border-radius:4px}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes slideDown{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    @keyframes dotBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+    input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:var(--color-sage-light);outline:none;cursor:pointer}
+    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--color-beige-dark);cursor:pointer;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+    button,input,select,textarea{font-family:var(--font-body)}
   </style>
 </head>
 <body>
   <div id="root"></div>
-
-  <!-- React 18 + ReactDOM + Babel Standalone -->
   <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+// mockData.js â€” Global mock state for DRAPE Virtual Fitting Room
+// No import/export â€” loaded as global script via Babel CDN
 
-  <!-- App modules: order matters — data first, then components, then shell -->
-  <script type="text/babel" src="mockData.js"></script>
-  <script type="text/babel" src="UniversalRack.jsx"></script>
-  <script type="text/babel" src="FittingRoom.jsx"></script>
-  <script type="text/babel" src="AIStylist.jsx"></script>
-  <script type="text/babel" src="App.jsx"></script>
+const MOCK_RACK = [
+  { id:'item-1', name:'Relaxed Linen Shirt', brand:'Massimo Dutti', price:'$89', category:'top', styling_type:'tuckable', owned:false, imageUrl:'https://picsum.photos/seed/garment1/400/500', sourceUrl:'https://www.massimodutti.com/product/linen-shirt' },
+  { id:'item-2', name:'Silk Draped Blouse', brand:'Reiss', price:'$145', category:'top', styling_type:null, owned:false, imageUrl:'https://picsum.photos/seed/garment2/400/500', sourceUrl:'https://www.reiss.com/product/silk-blouse' },
+  { id:'item-3', name:'Cotton Oversized Tee', brand:'COS', price:'$45', category:'top', styling_type:null, owned:false, imageUrl:'https://picsum.photos/seed/garment3/400/500', sourceUrl:'https://www.cos.com/product/tee' },
+  { id:'item-4', name:'Wide-Leg Palazzo Trousers', brand:'Zara', price:'$69', category:'bottom', styling_type:null, owned:false, imageUrl:'https://picsum.photos/seed/garment4/400/500', sourceUrl:'https://www.zara.com/product/palazzo' },
+  { id:'item-5', name:'Maxi Pleated Skirt', brand:'Mango', price:'$79', category:'bottom', styling_type:null, owned:false, imageUrl:'https://picsum.photos/seed/garment5/400/500', sourceUrl:'https://www.mango.com/product/maxi-skirt' },
+  { id:'item-6', name:'Ankle-Length Linen Trousers', brand:'H&M', price:'$39', category:'bottom', styling_type:null, owned:false, imageUrl:'https://picsum.photos/seed/garment6/400/500', sourceUrl:'https://www.hm.com/product/linen-trousers' },
+  { id:'item-7', name:'Structured Blazer', brand:'ASOS', price:'$95', category:'outerwear', styling_type:'openable', owned:false, imageUrl:'https://picsum.photos/seed/garment7/400/500', sourceUrl:'https://www.asos.com/product/blazer' },
+  { id:'item-8', name:'Wool Longline Coat', brand:'Net-a-Porter', price:'$320', category:'outerwear', styling_type:'openable', owned:false, imageUrl:'https://picsum.photos/seed/garment8/400/500', sourceUrl:'https://www.net-a-porter.com/product/coat' },
+  { id:'item-9', name:'Jersey Instant Hijab', brand:'Modanisa', price:'$22', category:'headwear', styling_type:'hijab_style', owned:false, imageUrl:'https://picsum.photos/seed/garment9/400/500', sourceUrl:'https://www.modanisa.com/product/instant-hijab' },
+  { id:'item-10', name:'Chiffon Wrap Scarf', brand:'Modanisa', price:'$35', category:'headwear', styling_type:'hijab_style', owned:false, imageUrl:'https://picsum.photos/seed/garment10/400/500', sourceUrl:'https://www.modanisa.com/product/chiffon-scarf' },
+  { id:'item-11', name:'Gold Chain Belt', brand:'Zara', price:'$29', category:'accessory', styling_type:null, owned:false, imageUrl:'https://picsum.photos/seed/garment11/400/500', sourceUrl:'https://www.zara.com/product/chain-belt' },
+  { id:'item-12', name:'Leather Tote Bag', brand:'Reiss', price:'$220', category:'accessory', styling_type:null, owned:false, imageUrl:'https://picsum.photos/seed/garment12/400/500', sourceUrl:'https://www.reiss.com/product/leather-tote' },
+];
 
-  <!-- Mount -->
+const MOCK_CLOSET = [
+  { id:'closet-1', name:'My Favourite Denim Jacket', brand:'Levi\'s', price:'$0', category:'outerwear', styling_type:'openable', owned:true, imageUrl:'https://picsum.photos/seed/closet1/400/500', sourceUrl:'' },
+  { id:'closet-2', name:'Cream Knit Cardigan', brand:'Own', price:'$0', category:'outerwear', styling_type:'openable', owned:true, imageUrl:'https://picsum.photos/seed/closet2/400/500', sourceUrl:'' },
+  { id:'closet-3', name:'Black Midi Dress', brand:'ASOS', price:'$0', category:'top', styling_type:null, owned:true, imageUrl:'https://picsum.photos/seed/closet3/400/500', sourceUrl:'' },
+  { id:'closet-4', name:'White Cotton Blouse', brand:'Zara', price:'$0', category:'top', styling_type:'tuckable', owned:true, imageUrl:'https://picsum.photos/seed/closet4/400/500', sourceUrl:'' },
+  { id:'closet-5', name:'Navy Wide Pants', brand:'Massimo Dutti', price:'$0', category:'bottom', styling_type:null, owned:true, imageUrl:'https://picsum.photos/seed/closet5/400/500', sourceUrl:'' },
+  { id:'closet-6', name:'Printed Prayer Hijab', brand:'Own', price:'$0', category:'headwear', styling_type:'hijab_style', owned:true, imageUrl:'https://picsum.photos/seed/closet6/400/500', sourceUrl:'' },
+];
+
+const MOCK_MANNEQUINS = [
+  { id:'man-1', label:'Classic XS', size:'XS', isHijabi:false, imageUrl:'https://picsum.photos/seed/mannequin1/600/900', backImageUrl:'https://picsum.photos/seed/mannequin1back/600/900' },
+  { id:'man-2', label:'Standard S', size:'S', isHijabi:false, imageUrl:'https://picsum.photos/seed/mannequin2/600/900', backImageUrl:'https://picsum.photos/seed/mannequin2back/600/900' },
+  { id:'man-3', label:'Standard M', size:'M', isHijabi:false, imageUrl:'https://picsum.photos/seed/mannequin3/600/900', backImageUrl:'https://picsum.photos/seed/mannequin3back/600/900' },
+  { id:'man-4', label:'Standard XL', size:'XL', isHijabi:false, imageUrl:'https://picsum.photos/seed/mannequin4/600/900', backImageUrl:'https://picsum.photos/seed/mannequin4back/600/900' },
+  { id:'man-5', label:'Hijabi M', size:'M', isHijabi:true, imageUrl:'https://picsum.photos/seed/mannequin5/600/900', backImageUrl:'https://picsum.photos/seed/mannequin5back/600/900' },
+  { id:'man-6', label:'Hijabi L', size:'L', isHijabi:true, imageUrl:'https://picsum.photos/seed/mannequin6/600/900', backImageUrl:'https://picsum.photos/seed/mannequin6back/600/900' },
+];
+
+const INITIAL_STATE = {
+  universalRack: MOCK_RACK,
+  virtualCloset: MOCK_CLOSET,
+  activeOutfit: [],
+  modelConfig: MOCK_MANNEQUINS[2],
+};
+
+const MOCK_AI_RESPONSES = {
+  blazer: {
+    text: "This blazer is a powerhouse piece! Here are pieces that complement its structure perfectly.",
+    recommendations: ['item-4', 'item-6'],
+    modesty_params: "Ankle-length hemlines, High necklines \u2265 collarbone, Opaque fabric weight >180gsm",
+    hype: "OBSESSED with this blazer combo \u2014 structured elegance is EVERYTHING right now! \uD83D\uDD25",
+    honest: "The structured blazer works best with high-waisted wide-leg trousers to balance the volume proportions."
+  },
+  eid: {
+    text: "For Eid, let\u2019s go festive yet refined. These pieces will make you radiant.",
+    recommendations: ['item-9', 'item-2', 'item-5'],
+    modesty_params: "Full coverage required, Celebratory palette, No sheer or clingy fabrics, Loose silhouette",
+    hype: "Eid look INCOMING! You are going to be absolutely radiant! \u2728\uD83C\uDF19",
+    honest: "These selections balance occasion-appropriate modesty with a refined festive aesthetic."
+  },
+  neutral: {
+    text: "A tonal neutral palette is the foundation of a timeless, versatile wardrobe.",
+    recommendations: ['item-6', 'item-1', 'item-11'],
+    modesty_params: "Muted tones only, Layerable pieces, Versatile loose silhouettes",
+    hype: "Neutral queen energy is UNMATCHED! This tonal combo is absolutely chef\u2019s kiss! \uD83E\uDD0C",
+    honest: "Neutral tones build a versatile capsule that pairs with almost everything. Classic and always appropriate."
+  },
+  modest: {
+    text: "Here are my top modest fashion picks from your rack \u2014 coverage and style in perfect harmony.",
+    recommendations: ['item-6', 'item-8', 'item-9'],
+    modesty_params: "Head-to-toe coverage, Loose silhouette, Opaque fabrics only, Minimum ankle-length hemlines",
+    hype: "Modesty is a WHOLE vibe and these pieces serve it FULLY! \uD83C\uDF3F",
+    honest: "These pieces meet comprehensive modest fashion criteria across fit, coverage, length, and fabric opacity."
+  },
+  default: {
+    text: "Here\u2019s a great starting point based on your current rack.",
+    recommendations: ['item-1', 'item-4'],
+    modesty_params: "General modesty filters active",
+    hype: "So many amazing options here \u2014 let\u2019s build something truly special! \uD83D\uDCAB",
+    honest: "Here is a balanced suggestion that works across most occasions and body types."
+  }
+};
+
+const MOCK_GENERATIONS = [
+  { id:'gen-1', timestamp: new Date(Date.now() - 2*24*60*60*1000).toISOString(), imageUrl:'https://picsum.photos/seed/gen1/600/800', items:['item-1','item-4','item-7'], label:'Casual Monday Look' },
+  { id:'gen-2', timestamp: new Date(Date.now() - 86400000).toISOString(), imageUrl:'https://picsum.photos/seed/gen2/600/800', items:['item-2','item-5','item-9'], label:'Eid Celebration Outfit' },
+  { id:'gen-3', timestamp: new Date(Date.now() - 3*60*60*1000).toISOString(), imageUrl:'https://picsum.photos/seed/gen3/600/800', items:['item-3','item-6','item-8'], label:'Editorial Street Style' },
+];
+
+  </script>
+  <script type="text/babel">
+// UniversalRack.jsx â€” Screen 1: Home / Universal Rack
+// No import/export â€” global Babel CDN scope
+
+const { useState, useRef } = React;
+
+function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUrl, onUploadOwn, onImportScreenshot, onOpenFittingRoom, onOpenStylist }) {
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [importStep, setImportStep] = useState(0);
+  const [importUrl, setImportUrl] = useState('');
+  const [importedItem, setImportedItem] = useState(null);
+  const fileInputRef = useRef(null);
+  const screenshotInputRef = useRef(null);
+
+  const filters = ['All','Tops','Bottoms','Outerwear','Headwear','My Closet'];
+
+  const filteredRack = rack.filter(item => {
+    if (activeFilter === 'All') return true;
+    if (activeFilter === 'Tops') return item.category === 'top';
+    if (activeFilter === 'Bottoms') return item.category === 'bottom';
+    if (activeFilter === 'Outerwear') return item.category === 'outerwear';
+    if (activeFilter === 'Headwear') return item.category === 'headwear';
+    if (activeFilter === 'My Closet') return item.owned === true;
+    return true;
+  });
+
+  const isInOutfit = (id) => activeOutfit.some(i => i.id === id);
+  const ownedCount = rack.filter(i => i.owned).length;
+
+  const handleImport = () => {
+    setImportStep(1);
+    setTimeout(() => {
+      setImportedItem({ name:'Floral Midi Dress', brand:'Zara', price:'$89', imageUrl:'https://picsum.photos/seed/import1/400/500' });
+      setImportStep(2);
+    }, 1500);
+  };
+
+  const handleAddFromModal = () => {
+    onImportUrl(importUrl || 'https://zara.com/product/floral-dress');
+    setShowImportModal(false);
+    setImportStep(0);
+    setImportUrl('');
+    setImportedItem(null);
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      onUploadOwn(e.target.files[0]);
+    }
+  };
+
+  const handleScreenshotChange = (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      const dataUrl = evt.target.result;
+      onImportScreenshot({ file, dataUrl });
+    };
+    reader.readAsDataURL(file);
+    // reset input so same file can be re-selected
+    e.target.value = '';
+  };
+
+  const s = {
+    wrapper: { minHeight:'100vh', background:'var(--color-bg)', paddingBottom:'140px', fontFamily:'var(--font-body)' },
+    header: { background:'var(--color-surface)', padding:'20px 20px 14px', borderBottom:'1px solid var(--color-border)' },
+    headerRow: { display:'flex', alignItems:'flex-start', justifyContent:'space-between' },
+    appName: { fontFamily:'var(--font-display)', fontSize:'2.8rem', fontWeight:300, letterSpacing:'0.3em', color:'var(--color-text)', lineHeight:1 },
+    subtitle: { fontSize:'0.72rem', color:'var(--color-text-muted)', letterSpacing:'0.15em', textTransform:'uppercase', marginTop:'4px' },
+    iconBtn: { background:'none', border:'none', cursor:'pointer', fontSize:'1.3rem', position:'relative', padding:'4px 6px' },
+    badge: { position:'absolute', top:'-2px', right:'-2px', background:'var(--color-sage)', color:'white', fontSize:'0.55rem', fontWeight:700, width:'16px', height:'16px', borderRadius:'50%', display:'flex', alignItems:'center', justifyContent:'center' },
+    importBar: { margin:'14px 16px', padding:'16px', background:'var(--color-surface)', borderRadius:'var(--radius-md)', boxShadow:'var(--shadow-sm)' },
+    sageBtnFull: { width:'100%', background:'var(--color-sage)', color:'white', border:'none', borderRadius:'var(--radius-md)', padding:'13px', fontSize:'0.95rem', fontWeight:600, cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px' },
+    outlineBtn: { width:'100%', background:'transparent', color:'var(--color-sage)', border:'1px solid var(--color-sage)', borderRadius:'var(--radius-md)', padding:'10px', fontSize:'0.88rem', fontWeight:500, cursor:'pointer', marginTop:'10px' },
+    storeNote: { fontSize:'0.72rem', color:'var(--color-text-light)', textAlign:'center', marginTop:'10px' },
+    tabsRow: { display:'flex', overflowX:'auto', padding:'0 16px 14px', gap:'8px', scrollbarWidth:'none', WebkitOverflowScrolling:'touch' },
+    grid: { display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px', padding:'0 16px' },
+    card: { position:'relative', borderRadius:'var(--radius-md)', overflow:'hidden', background:'var(--color-surface)', boxShadow:'var(--shadow-sm)', cursor:'pointer' },
+    imgWrap: (inOutfit) => ({ position:'relative', paddingTop:'133%', overflow:'hidden', outline: inOutfit ? '2.5px solid var(--color-sage)' : 'none', outlineOffset:'-2.5px' }),
+    img: { position:'absolute', top:0, left:0, width:'100%', height:'100%', objectFit:'cover' },
+    mineBadge: { position:'absolute', top:'8px', left:'8px', background:'var(--color-gold)', color:'white', fontSize:'0.58rem', fontWeight:700, padding:'3px 8px', borderRadius:'var(--radius-pill)', letterSpacing:'0.08em', zIndex:2 },
+    addBtn: (inOutfit) => ({ position:'absolute', bottom:'8px', right:'8px', width:'32px', height:'32px', borderRadius:'50%', background: inOutfit ? 'var(--color-sage)' : 'var(--color-cta)', color:'white', border:'none', fontSize:inOutfit?'1rem':'1.2rem', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', boxShadow:'var(--shadow-sm)', zIndex:2, transition:'var(--transition)' }),
+    cardInfo: { padding:'8px 10px 10px' },
+    brand: { fontSize:'0.6rem', color:'var(--color-text-muted)', textTransform:'uppercase', letterSpacing:'0.08em' },
+    name: { fontSize:'0.85rem', fontWeight:600, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis', marginTop:'2px' },
+    price: { fontSize:'0.82rem', color:'var(--color-sage-dark)', fontWeight:500, marginTop:'2px' },
+    tray: { position:'fixed', bottom:'56px', left:0, right:0, maxWidth:'430px', margin:'0 auto', zIndex:50, background:'var(--color-surface)', padding:'12px 16px 14px', borderTop:'1px solid var(--color-border)', boxShadow:'0 -4px 20px rgba(0,0,0,0.08)', animation:'slideUp 0.3s ease' },
+    trayRow: { display:'flex', alignItems:'center', gap:'8px', overflowX:'auto', marginBottom:'10px', scrollbarWidth:'none' },
+    trayThumb: { width:'48px', height:'60px', objectFit:'cover', borderRadius:'var(--radius-sm)', flexShrink:0 },
+    trayCount: { fontSize:'0.82rem', color:'var(--color-text-muted)', whiteSpace:'nowrap' },
+    ctaBtn: { width:'100%', background:'var(--color-cta)', color:'white', border:'none', borderRadius:'var(--radius-md)', padding:'14px', fontFamily:'var(--font-display)', fontSize:'1.1rem', cursor:'pointer', letterSpacing:'0.05em' },
+    overlay: { position:'fixed', inset:0, background:'rgba(0,0,0,0.5)', zIndex:100, display:'flex', alignItems:'flex-end' },
+    sheet: { background:'white', width:'100%', maxWidth:'430px', margin:'0 auto', borderRadius:'20px 20px 0 0', padding:'24px', maxHeight:'85vh', overflowY:'auto' },
+    handle: { width:'40px', height:'4px', background:'var(--color-border)', borderRadius:'2px', margin:'0 auto 20px' },
+    sheetTitle: { fontFamily:'var(--font-display)', fontSize:'1.4rem', marginBottom:'16px' },
+    urlInput: { width:'100%', padding:'12px 16px', borderRadius:'var(--radius-md)', border:'1px solid var(--color-border)', fontSize:'0.9rem', outline:'none', marginBottom:'12px', fontFamily:'var(--font-body)' },
+    spinner: { width:'40px', height:'40px', border:'3px solid var(--color-sage-light)', borderTopColor:'var(--color-sage)', borderRadius:'50%', animation:'spin 1s linear infinite', margin:'20px auto' },
+    parsedCard: { display:'flex', gap:'12px', alignItems:'center', background:'var(--color-surface-2)', padding:'12px', borderRadius:'var(--radius-md)', marginBottom:'16px' },
+    parsedImg: { width:'64px', height:'80px', objectFit:'cover', borderRadius:'var(--radius-sm)' },
+  };
+
+  return (
+    <div style={s.wrapper}>
+      {/* Header */}
+      <div style={s.header}>
+        <div style={s.headerRow}>
+          <div>
+            <div style={s.appName}>DRAPE</div>
+            <div style={s.subtitle}>Your Universal Wardrobe</div>
+          </div>
+          <div style={{ display:'flex', gap:'4px', paddingTop:'4px' }}>
+            <button style={s.iconBtn} title="My Closet">
+              ðŸ‘—
+              {ownedCount > 0 && <span style={s.badge}>{ownedCount}</span>}
+            </button>
+            <button style={s.iconBtn} onClick={onOpenStylist} title="AI Stylist">âœ¦</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Import Bar */}
+      <div style={s.importBar}>
+        <button style={s.sageBtnFull} onClick={() => { setShowImportModal(true); setImportStep(0); }}>
+          <span>â¬†</span> Import from any store
+        </button>
+        <input type="file" ref={fileInputRef} style={{ display:'none' }} accept="image/*" onChange={handleFileChange} />
+        <button style={s.outlineBtn} onClick={() => fileInputRef.current && fileInputRef.current.click()}>
+          + Upload My Own
+        </button>
+
+        {/* Screenshot import â€” camera icon, prominent */}
+        <input type="file" ref={screenshotInputRef} style={{ display:'none' }} accept="image/*" capture="environment" onChange={handleScreenshotChange} />
+        <button
+          style={{ ...s.outlineBtn, marginTop:'8px', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', borderColor:'var(--color-beige-dark)', color:'var(--color-beige-dark)', fontWeight:600 }}
+          onClick={() => screenshotInputRef.current && screenshotInputRef.current.click()}
+        >
+          ðŸ“¸ Add Screenshot from Any Site
+        </button>
+        <div style={{ fontSize:'0.7rem', color:'var(--color-text-light)', textAlign:'center', marginTop:'6px' }}>
+          Screenshot a product anywhere â†’ upload here âœ¦ no sharing required
+        </div>
+        <div style={s.storeNote}>Works with Zara, ASOS, Modanisa, Net-a-Porter + 500 more</div>
+      </div>
+
+      {/* Filter Tabs */}
+      <div style={s.tabsRow}>
+        {filters.map(f => (
+          <button
+            key={f}
+            onClick={() => setActiveFilter(f)}
+            style={{
+              flexShrink:0, padding:'7px 16px', borderRadius:'var(--radius-pill)',
+              fontSize:'0.8rem', fontWeight:500, cursor:'pointer', whiteSpace:'nowrap',
+              border: activeFilter === f ? 'none' : '1px solid var(--color-border)',
+              background: activeFilter === f ? 'var(--color-sage)' : 'var(--color-surface)',
+              color: activeFilter === f ? 'white' : 'var(--color-text-muted)',
+              transition:'var(--transition)',
+            }}
+          >{f}</button>
+        ))}
+      </div>
+
+      {/* Section Label */}
+      <div style={{ padding:'0 16px 10px', fontSize:'0.72rem', color:'var(--color-text-muted)', textTransform:'uppercase', letterSpacing:'0.1em', fontWeight:500 }}>
+        {filteredRack.length} {activeFilter === 'All' ? 'Pieces' : activeFilter}
+      </div>
+
+      {/* Garment Grid */}
+      <div style={s.grid}>
+        {filteredRack.map(item => {
+          const inOutfit = isInOutfit(item.id);
+          return (
+            <div key={item.id} style={s.card}>
+              <div style={s.imgWrap(inOutfit)}>
+                <img src={item.imageUrl} alt={item.name} style={s.img} loading="lazy" />
+                {item.owned && <span style={s.mineBadge}>MINE</span>}
+                {item.isScreenshot && <span style={{ ...s.mineBadge, background:'var(--color-beige-dark)', left:'auto', right:'8px' }}>ðŸ“¸</span>}
+                <button
+                  style={s.addBtn(inOutfit)}
+                  onClick={(e) => { e.stopPropagation(); inOutfit ? onRemoveItem(item.id) : onAddItem(item); }}
+                >
+                  {inOutfit ? 'âœ“' : '+'}
+                </button>
+              </div>
+              <div style={s.cardInfo}>
+                <div style={s.brand}>{item.brand}</div>
+                <div style={s.name}>{item.name}</div>
+                <div style={s.price}>{item.price}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {filteredRack.length === 0 && (
+        <div style={{ textAlign:'center', padding:'40px 20px', color:'var(--color-text-muted)' }}>
+          <div style={{ fontSize:'2.5rem', marginBottom:'12px' }}>âœ¦</div>
+          <div style={{ fontFamily:'var(--font-display)', fontSize:'1.3rem' }}>Nothing here yet</div>
+          <div style={{ fontSize:'0.85rem', marginTop:'6px' }}>Import from a store or upload your own items</div>
+        </div>
+      )}
+
+      {/* Active Outfit Tray */}
+      {activeOutfit.length > 0 && (
+        <div style={s.tray}>
+          <div style={s.trayRow}>
+            <div style={{ fontSize:'0.82rem', color:'var(--color-text-muted)', whiteSpace:'nowrap', flexShrink:0 }}>
+              {activeOutfit.length} {activeOutfit.length === 1 ? 'item' : 'items'} selected
+            </div>
+            {activeOutfit.map(item => (
+              <img key={item.id} src={item.imageUrl} alt={item.name} style={s.trayThumb} />
+            ))}
+          </div>
+          <button style={s.ctaBtn} onClick={onOpenFittingRoom}>
+            Enter Fitting Room â†’
+          </button>
+        </div>
+      )}
+
+      {/* Import URL Modal */}
+      {showImportModal && (
+        <div style={s.overlay} onClick={() => { setShowImportModal(false); setImportStep(0); }}>
+          <div style={s.sheet} onClick={e => e.stopPropagation()}>
+            <div style={s.handle} />
+            <div style={s.sheetTitle}>Import from Store</div>
+
+            {importStep === 0 && (
+              <>
+                <input
+                  type="text"
+                  style={s.urlInput}
+                  placeholder="Paste product URL e.g. zara.com/product/..."
+                  value={importUrl}
+                  onChange={e => setImportUrl(e.target.value)}
+                />
+                <button style={{ ...s.sageBtnFull, borderRadius:'var(--radius-md)' }} onClick={handleImport}>
+                  Import Product
+                </button>
+                <button style={{ ...s.outlineBtn, marginTop:'10px' }} onClick={() => { setShowImportModal(false); setImportStep(0); }}>
+                  Cancel
+                </button>
+              </>
+            )}
+
+            {importStep === 1 && (
+              <div style={{ textAlign:'center', padding:'20px 0' }}>
+                <div style={s.spinner} />
+                <div style={{ color:'var(--color-text-muted)', fontSize:'0.9rem' }}>Parsing product details...</div>
+              </div>
+            )}
+
+            {importStep === 2 && importedItem && (
+              <>
+                <div style={s.parsedCard}>
+                  <img src={importedItem.imageUrl} alt={importedItem.name} style={s.parsedImg} />
+                  <div>
+                    <div style={{ fontSize:'0.72rem', color:'var(--color-text-muted)', textTransform:'uppercase', letterSpacing:'0.08em' }}>{importedItem.brand}</div>
+                    <div style={{ fontWeight:600, marginTop:'4px' }}>{importedItem.name}</div>
+                    <div style={{ color:'var(--color-sage-dark)', fontWeight:500, marginTop:'4px' }}>{importedItem.price}</div>
+                  </div>
+                </div>
+                <button style={{ ...s.sageBtnFull, borderRadius:'var(--radius-md)' }} onClick={handleAddFromModal}>
+                  Add to Rack
+                </button>
+                <button style={{ ...s.outlineBtn }} onClick={() => { setShowImportModal(false); setImportStep(0); }}>
+                  Cancel
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+  </script>
+  <script type="text/babel">
+// FittingRoom.jsx â€” Screen 2: The Core Fitting Engine
+// No import/export â€” global Babel CDN scope
+
+const { useState, useEffect, useRef } = React;
+
+const LOADING_MSGS = [
+  'Scanning fabric textures...',
+  'Draping garments...',
+  'Adjusting fit...',
+  'Revealing your look...',
+];
+
+function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, onChangeModel, onUpdateStylingOption, onVisualize, onRemoveItem, onShopLook, onBack, onOpenStylist }) {
+  const [isFlipped, setIsFlipped]           = useState(false);
+  const [isLoading, setIsLoading]           = useState(false);
+  const [loadingStep, setLoadingStep]       = useState(0);
+  const [generatedImage, setGeneratedImage] = useState(null);
+  const [showModelModal, setShowModelModal] = useState(false);
+  const [showCompare, setShowCompare]       = useState(false);
+  const [compareIndices]                    = useState([0, 1]);
+  const intervalRef                         = useRef(null);
+
+  useEffect(() => () => clearInterval(intervalRef.current), []);
+
+  const handleVisualize = () => {
+    if (isLoading || activeOutfit.length === 0) return;
+    setIsLoading(true);
+    setLoadingStep(0);
+    setGeneratedImage(null);
+    intervalRef.current = setInterval(() => setLoadingStep(s => s + 1), 1200);
+    setTimeout(() => {
+      clearInterval(intervalRef.current);
+      setGeneratedImage('https://picsum.photos/seed/gen' + Date.now() + '/600/800');
+      setIsLoading(false);
+      onVisualize();
+    }, 4800);
+  };
+
+  const formatRelTime = (iso) => {
+    const diff = Date.now() - new Date(iso).getTime();
+    const h = Math.floor(diff / 3600000);
+    const d = Math.floor(h / 24);
+    if (d > 0) return d + 'd ago';
+    if (h > 0) return h + 'h ago';
+    return 'just now';
+  };
+
+  const bgImage = isFlipped
+    ? (modelConfig && modelConfig.backImageUrl ? modelConfig.backImageUrl : 'https://picsum.photos/seed/mannequin3back/600/900')
+    : (modelConfig && modelConfig.imageUrl ? modelConfig.imageUrl : 'https://picsum.photos/seed/mannequin3/600/900');
+
+  return (
+    <div style={{ display:'flex', flexDirection:'column', height:'100vh', background:'var(--color-bg)', overflow:'hidden', fontFamily:'var(--font-body)' }}>
+
+      {/* Top Bar */}
+      <div style={{ flexShrink:0, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 16px', background:'var(--color-surface)', borderBottom:'1px solid var(--color-border)' }}>
+        <button onClick={onBack} style={{ background:'none', border:'none', cursor:'pointer', fontSize:'1.4rem', padding:'4px 8px', color:'var(--color-text)' }}>â†</button>
+        <span style={{ fontFamily:'var(--font-display)', fontSize:'1.3rem', fontWeight:400 }}>Fitting Room</span>
+        <button onClick={onShopLook} style={{ background:'none', border:'none', cursor:'pointer', color:'var(--color-gold)', fontWeight:600, fontSize:'0.9rem' }}>Shop Look</button>
+      </div>
+
+      {/* Main Visual Area */}
+      <div style={{ flexShrink:0, height:'340px', margin:'12px 12px 0', position:'relative', borderRadius:'var(--radius-lg)', overflow:'hidden', boxShadow:'var(--shadow-md)', backgroundImage:'url('+bgImage+')', backgroundSize:'cover', backgroundPosition:'center top' }}>
+
+        {/* Generated image overlay */}
+        {generatedImage && (
+          <img src={generatedImage} alt="Generated outfit" style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', animation:'fadeIn 0.8s ease', zIndex:1 }} />
+        )}
+
+        {/* Loading overlay */}
+        {isLoading && (
+          <div style={{ position:'absolute', inset:0, background:'rgba(44,40,37,0.88)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', zIndex:3 }}>
+            <div style={{ color:'white', fontFamily:'var(--font-display)', fontSize:'1.3rem', marginBottom:'20px', animation:'pulse 1.5s ease infinite', textAlign:'center', padding:'0 20px' }}>
+              {LOADING_MSGS[Math.min(loadingStep, 3)]}
+            </div>
+            <div style={{ width:'200px', height:'4px', background:'rgba(255,255,255,0.2)', borderRadius:'2px' }}>
+              <div style={{ width: (Math.min(loadingStep+1,4)/4*100)+'%', height:'100%', background:'var(--color-sage)', borderRadius:'2px', transition:'width 1.2s ease' }} />
+            </div>
+          </div>
+        )}
+
+        {/* Overlay controls */}
+        <button onClick={() => setShowModelModal(true)} style={{ position:'absolute', top:'12px', left:'12px', background:'rgba(0,0,0,0.65)', color:'white', border:'none', borderRadius:'var(--radius-pill)', padding:'6px 14px', fontSize:'0.75rem', cursor:'pointer', zIndex:2 }}>
+          Change Model
+        </button>
+        <button onClick={() => setIsFlipped(f => !f)} style={{ position:'absolute', top:'12px', right:'12px', width:'36px', height:'36px', borderRadius:'50%', background:'rgba(0,0,0,0.5)', color:'white', border:'none', fontSize:'1rem', cursor:'pointer', zIndex:2, display:'flex', alignItems:'center', justifyContent:'center' }}>
+          ðŸ”„
+        </button>
+        {generatedImage && (
+          <div style={{ position:'absolute', bottom:'12px', left:'12px', background:'var(--color-gold)', color:'white', padding:'4px 10px', borderRadius:'var(--radius-pill)', fontSize:'0.72rem', fontWeight:700, zIndex:2 }}>
+            âœ¨ New
+          </div>
+        )}
+      </div>
+
+      {/* Outfit Drawer */}
+      <div style={{ flex:1, overflowY:'auto', padding:'12px 16px' }}>
+        <div style={{ fontFamily:'var(--font-display)', fontSize:'1.1rem', marginBottom:'8px', color:'var(--color-text)' }}>
+          Your Look <span style={{ color:'var(--color-text-muted)', fontSize:'0.9rem' }}>({activeOutfit.length} items)</span>
+        </div>
+
+        {activeOutfit.length === 0 && (
+          <div style={{ textAlign:'center', padding:'20px', color:'var(--color-text-muted)' }}>
+            <div style={{ fontSize:'2rem', marginBottom:'8px' }}>ðŸ‘—</div>
+            <div style={{ fontSize:'0.85rem' }}>No items selected yet. Go back to add pieces.</div>
+          </div>
+        )}
+
+        {activeOutfit.map(item => {
+          const opts = stylingOptions[item.id] || {};
+          return (
+            <div key={item.id}>
+              <div style={{ display:'flex', alignItems:'center', gap:'10px', padding:'10px 0', borderBottom:'1px solid var(--color-border)' }}>
+                <img src={item.imageUrl} alt={item.name} style={{ width:'52px', height:'65px', objectFit:'cover', borderRadius:'var(--radius-sm)', flexShrink:0 }} />
+                <div style={{ flex:1 }}>
+                  <div style={{ fontWeight:600, fontSize:'0.85rem' }}>{item.name}</div>
+                  <div style={{ fontSize:'0.72rem', color:'var(--color-text-muted)', marginTop:'2px' }}>{item.brand}</div>
+                </div>
+                <button onClick={() => onRemoveItem(item.id)} style={{ background:'none', border:'none', fontSize:'1.3rem', color:'var(--color-text-muted)', cursor:'pointer', padding:'4px' }}>Ã—</button>
+              </div>
+
+              {/* Styling Controls */}
+              {item.styling_type === 'tuckable' && (
+                <div style={{ paddingLeft:'62px', paddingBottom:'10px', paddingTop:'6px' }}>
+                  <div style={{ fontSize:'0.72rem', color:'var(--color-text-muted)', marginBottom:'6px', textTransform:'uppercase', letterSpacing:'0.06em' }}>Styling</div>
+                  <div style={{ display:'inline-flex', border:'1px solid var(--color-sage)', borderRadius:'var(--radius-pill)', overflow:'hidden' }}>
+                    {['Tuck In','Untuck'].map(opt => {
+                      const val = opt === 'Tuck In';
+                      const active = opts.tucked === val || (opts.tucked === undefined && !val);
+                      return (
+                        <button key={opt} onClick={() => onUpdateStylingOption(item.id, 'tucked', val)}
+                          style={{ padding:'6px 16px', border:'none', cursor:'pointer', fontSize:'0.8rem', fontWeight:500, background: active ? 'var(--color-sage)' : 'white', color: active ? 'white' : 'var(--color-sage)', transition:'var(--transition)' }}>
+                          {opt}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
+
+              {item.styling_type === 'openable' && (
+                <div style={{ paddingLeft:'62px', paddingBottom:'10px', paddingTop:'6px', display:'flex', alignItems:'center', gap:'10px' }}>
+                  <div style={{ fontSize:'0.72rem', color:'var(--color-text-muted)', textTransform:'uppercase', letterSpacing:'0.06em' }}>Style</div>
+                  <span style={{ fontSize:'0.8rem', color: (opts.open === false) ? 'var(--color-text-muted)' : 'var(--color-sage-dark)', fontWeight:500 }}>Open</span>
+                  <div onClick={() => onUpdateStylingOption(item.id, 'open', !(opts.open !== false))}
+                    style={{ width:'44px', height:'24px', borderRadius:'var(--radius-pill)', background:(opts.open !== false) ? 'var(--color-sage)' : '#D0C8C0', position:'relative', cursor:'pointer', transition:'var(--transition)', flexShrink:0 }}>
+                    <div style={{ position:'absolute', top:'2px', width:'20px', height:'20px', borderRadius:'50%', background:'white', transition:'left 0.2s ease', left:(opts.open !== false) ? '22px' : '2px', boxShadow:'0 1px 3px rgba(0,0,0,0.2)' }} />
+                  </div>
+                  <span style={{ fontSize:'0.8rem', color: (opts.open === false) ? 'var(--color-sage-dark)' : 'var(--color-text-muted)', fontWeight:500 }}>Closed</span>
+                </div>
+              )}
+
+              {item.styling_type === 'hijab_style' && (
+                <div style={{ paddingLeft:'62px', paddingBottom:'10px', paddingTop:'6px' }}>
+                  <div style={{ fontSize:'0.72rem', color:'var(--color-text-muted)', marginBottom:'6px', textTransform:'uppercase', letterSpacing:'0.06em' }}>Drape Style</div>
+                  <select value={opts.drapeStyle || 'Loose Drape'} onChange={e => onUpdateStylingOption(item.id, 'drapeStyle', e.target.value)}
+                    style={{ padding:'7px 12px', borderRadius:'var(--radius-sm)', border:'1px solid var(--color-sage)', fontSize:'0.82rem', background:'white', color:'var(--color-text)', cursor:'pointer', outline:'none' }}>
+                    <option>Loose Drape</option>
+                    <option>Tight Wrap</option>
+                    <option>Turkish Style</option>
+                  </select>
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Visualize Button */}
+      <div style={{ flexShrink:0, padding:'10px 12px 0' }}>
+        <button onClick={handleVisualize} disabled={isLoading || activeOutfit.length === 0}
+          style={{ width:'100%', height:'54px', background: (isLoading || activeOutfit.length===0) ? 'var(--color-text-muted)' : 'var(--color-cta)', color:'white', border:'none', borderRadius:'var(--radius-md)', fontFamily:'var(--font-display)', fontSize:'1.2rem', cursor: (isLoading || activeOutfit.length===0) ? 'not-allowed' : 'pointer', letterSpacing:'0.05em', transition:'var(--transition)' }}>
+          {isLoading ? 'Generating...' : 'âœ¨ Visualize Fit'}
+        </button>
+      </div>
+
+      {/* Session Filmstrip */}
+      <div style={{ flexShrink:0, display:'flex', alignItems:'center', overflowX:'auto', padding:'10px 16px 10px', gap:'10px', background:'var(--color-surface)', borderTop:'1px solid var(--color-border)', marginTop:'10px', scrollbarWidth:'none' }}>
+        <div style={{ fontSize:'0.72rem', color:'var(--color-text-muted)', fontWeight:500, textTransform:'uppercase', letterSpacing:'0.08em', flexShrink:0, marginRight:'4px' }}>History</div>
+        {generations.map(gen => (
+          <div key={gen.id} style={{ flexShrink:0, textAlign:'center' }}>
+            <img src={gen.imageUrl} alt={gen.label} onClick={() => setGeneratedImage(gen.imageUrl)}
+              style={{ width:'56px', height:'70px', objectFit:'cover', borderRadius:'var(--radius-sm)', cursor:'pointer', display:'block', boxShadow:'var(--shadow-sm)' }} />
+            <div style={{ fontSize:'0.6rem', color:'var(--color-text-muted)', marginTop:'3px' }}>{formatRelTime(gen.timestamp)}</div>
+          </div>
+        ))}
+        <button onClick={() => setShowCompare(true)}
+          style={{ marginLeft:'auto', flexShrink:0, padding:'6px 14px', border:'1px solid var(--color-sage)', borderRadius:'var(--radius-pill)', background:'white', color:'var(--color-sage)', fontSize:'0.78rem', cursor:'pointer', whiteSpace:'nowrap' }}>
+          âŠž Compare
+        </button>
+      </div>
+
+      {/* Model Setup Modal */}
+      {showModelModal && (
+        <div style={{ position:'fixed', inset:0, zIndex:100, background:'rgba(0,0,0,0.5)', overflow:'auto' }}>
+          <div style={{ background:'var(--color-surface)', minHeight:'100%', padding:'20px', position:'relative' }}>
+            <button onClick={() => setShowModelModal(false)} style={{ position:'absolute', top:'16px', right:'16px', background:'none', border:'none', fontSize:'1.5rem', cursor:'pointer', zIndex:1 }}>Ã—</button>
+            <div style={{ fontFamily:'var(--font-display)', fontSize:'1.6rem', marginBottom:'24px', paddingRight:'40px' }}>Change Model</div>
+
+            {/* Section A: Upload Photo */}
+            <div style={{ marginBottom:'4px', fontSize:'0.72rem', textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--color-text-muted)', fontWeight:600 }}>ðŸ“¸ Upload Your Photo</div>
+            <div style={{ position:'relative', border:'2px dashed var(--color-border)', borderRadius:'var(--radius-md)', height:'160px', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'var(--color-surface-2)', marginTop:'8px' }}>
+              <div style={{ fontSize:'2rem', marginBottom:'8px' }}>ðŸ“·</div>
+              <div style={{ fontSize:'0.9rem', color:'var(--color-text-muted)' }}>Drop photo here or tap to browse</div>
+              {/* Corner handles */}
+              {[{top:'14px',left:'14px'},{top:'14px',right:'14px'},{bottom:'14px',left:'14px'},{bottom:'14px',right:'14px'}].map((pos,i) => (
+                <div key={i} style={{ position:'absolute', width:'12px', height:'12px', border:'2px solid var(--color-sage)', ...pos }} />
+              ))}
+            </div>
+            <div style={{ fontSize:'0.75rem', color:'var(--color-text-muted)', fontStyle:'italic', marginTop:'8px', marginBottom:'20px' }}>ðŸ”’ Head is auto-cropped for privacy</div>
+
+            <div style={{ height:'1px', background:'var(--color-border)', margin:'20px 0' }} />
+
+            {/* Section B: Timed Selfie */}
+            <div style={{ marginBottom:'4px', fontSize:'0.72rem', textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--color-text-muted)', fontWeight:600 }}>â± Timed Selfie</div>
+            <div style={{ textAlign:'center', padding:'20px 0' }}>
+              <div style={{ fontSize:'3rem' }}>ðŸ“·</div>
+              <div style={{ display:'inline-block', background:'var(--color-gold)', color:'white', borderRadius:'var(--radius-pill)', padding:'4px 14px', fontSize:'0.8rem', fontWeight:600, margin:'10px 0' }}>10s Timer</div>
+              <div style={{ fontSize:'0.85rem', color:'var(--color-text-muted)' }}>Strike a pose â€” we'll handle the rest.</div>
+            </div>
+
+            <div style={{ height:'1px', background:'var(--color-border)', margin:'20px 0' }} />
+
+            {/* Section C: Choose Mannequin */}
+            <div style={{ marginBottom:'12px', fontSize:'0.72rem', textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--color-text-muted)', fontWeight:600 }}>Choose Mannequin</div>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'10px' }}>
+              {MOCK_MANNEQUINS.map(man => (
+                <div key={man.id} onClick={() => { onChangeModel(man); setShowModelModal(false); }}
+                  style={{ cursor:'pointer', borderRadius:'var(--radius-md)', overflow:'hidden', border: modelConfig && modelConfig.id===man.id ? '2px solid var(--color-sage)' : '2px solid transparent', position:'relative', boxShadow:'var(--shadow-sm)' }}>
+                  <img src={man.imageUrl} alt={man.label} style={{ width:'100%', aspectRatio:'2/3', objectFit:'cover', display:'block' }} />
+                  {man.isHijabi && (
+                    <div style={{ position:'absolute', top:'6px', left:'50%', transform:'translateX(-50%)', background:'var(--color-sage)', color:'white', fontSize:'0.55rem', padding:'3px 7px', borderRadius:'var(--radius-pill)', whiteSpace:'nowrap', fontWeight:600 }}>ðŸŒ™ Hijab</div>
+                  )}
+                  <div style={{ padding:'6px 8px', background:'var(--color-surface)' }}>
+                    <div style={{ fontSize:'0.75rem', fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{man.label}</div>
+                    <div style={{ display:'inline-block', fontSize:'0.62rem', background:'var(--color-surface-2)', borderRadius:'var(--radius-pill)', padding:'2px 7px', marginTop:'3px' }}>Size {man.size}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ height:'40px' }} />
+          </div>
+        </div>
+      )}
+
+      {/* Compare Overlay */}
+      {showCompare && generations.length >= 2 && (
+        <div style={{ position:'fixed', inset:0, zIndex:110, background:'#111', display:'flex', flexDirection:'column' }}>
+          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'14px 16px', background:'rgba(0,0,0,0.8)' }}>
+            <div style={{ color:'white', fontFamily:'var(--font-display)', fontSize:'1.1rem' }}>Compare Fits</div>
+            <button onClick={() => setShowCompare(false)} style={{ background:'none', border:'none', color:'white', fontSize:'1.5rem', cursor:'pointer' }}>Ã—</button>
+          </div>
+          <div style={{ display:'flex', flex:1, overflow:'hidden' }}>
+            {[compareIndices[0], compareIndices[1]].map((idx, i) => {
+              const gen = generations[idx] || generations[0];
+              return (
+                <div key={i} style={{ flex:1, position:'relative' }}>
+                  <img src={gen.imageUrl} alt={gen.label} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+                  <div style={{ position:'absolute', bottom:0, left:0, right:0, background:'rgba(0,0,0,0.6)', color:'white', padding:'10px 12px' }}>
+                    <div style={{ fontSize:'0.8rem', fontWeight:600 }}>{gen.label}</div>
+                    <div style={{ fontSize:'0.65rem', opacity:0.7, marginTop:'2px' }}>{formatRelTime(gen.timestamp)}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+  </script>
+  <script type="text/babel">
+// AIStylist.jsx â€” Screen 3: AI Stylist Chat Drawer
+// No import/export â€” global Babel CDN scope
+
+const { useState: useStylistState, useEffect: useStylistEffect, useRef: useStylistRef } = React;
+
+function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOutfit }) {
+  const [messages, setMessages]           = useStylistState([]);
+  const [inputText, setInputText]         = useStylistState('');
+  const [isModestMode, setIsModestMode]   = useStylistState(true);
+  const [personalityMode, setPersonality] = useStylistState('hype');
+  const [isTyping, setIsTyping]           = useStylistState(false);
+  const messagesEndRef                    = useStylistRef(null);
+
+  // Initial greeting
+  useStylistEffect(() => {
+    const rackLen = rack ? rack.length : 0;
+    setMessages([{
+      id: 1,
+      role: 'ai',
+      text: "Salaam! I'm your AI stylist âœ¦ I've analyzed your rack of " + rackLen + " pieces. What vibe are we going for today? ðŸŒ¿",
+      recommendations: [],
+      modesty_params: null,
+      timestamp: new Date(),
+    }]);
+  }, []);
+
+  // Auto-scroll
+  useStylistEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior:'smooth' });
+    }
+  }, [messages, isTyping]);
+
+  const handleSend = (textOverride) => {
+    const text = typeof textOverride === 'string' ? textOverride : inputText;
+    if (!text.trim()) return;
+
+    const userMsg = { id: Date.now(), role:'user', text, timestamp: new Date() };
+    setMessages(prev => [...prev, userMsg]);
+    setInputText('');
+    setIsTyping(true);
+
+    setTimeout(() => {
+      const lower = text.toLowerCase();
+      let key = 'default';
+      if (lower.includes('blazer') || lower.includes('match')) key = 'blazer';
+      else if (lower.includes('eid') || lower.includes('celebrat') || lower.includes('occasion')) key = 'eid';
+      else if (lower.includes('neutral') || lower.includes('basic') || lower.includes('neutral')) key = 'neutral';
+      else if (lower.includes('modest') || lower.includes('coverage') || lower.includes('hijab')) key = 'modest';
+
+      const resp = (aiResponses && aiResponses[key]) || (aiResponses && aiResponses['default']) || {
+        text: 'Let me find something that works for you!',
+        recommendations: [],
+        modesty_params: 'General modesty filters active',
+        hype: 'So many amazing options!',
+        honest: 'Here is a balanced suggestion.',
+      };
+
+      const msgText = personalityMode === 'hype' ? resp.hype : resp.honest;
+      const recItems = (rack || []).filter(i => (resp.recommendations || []).includes(i.id));
+
+      const aiMsg = {
+        id: Date.now() + 1,
+        role: 'ai',
+        text: resp.text + ' ' + msgText,
+        recommendations: recItems,
+        modesty_params: isModestMode ? resp.modesty_params : null,
+        timestamp: new Date(),
+      };
+
+      setIsTyping(false);
+      setMessages(prev => [...prev, aiMsg]);
+    }, 1800);
+  };
+
+  const formatTime = (date) => {
+    if (!date) return '';
+    const d = date instanceof Date ? date : new Date(date);
+    return d.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' });
+  };
+
+  const PROMPTS = [
+    'What matches this blazer?',
+    'Style this for Eid',
+    'Modest & trendy?',
+    'Build a neutral look',
+  ];
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div onClick={onClose} style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.4)', zIndex:199, opacity: isOpen ? 1 : 0, pointerEvents: isOpen ? 'auto' : 'none', transition:'opacity 0.4s' }} />
+
+      {/* Sliding Panel */}
+      <div style={{ position:'fixed', bottom:0, left:0, right:0, maxWidth:'430px', margin:'0 auto', height:'85vh', background:'var(--color-surface)', borderRadius:'20px 20px 0 0', boxShadow:'var(--shadow-lg)', zIndex:200, display:'flex', flexDirection:'column', transform: isOpen ? 'translateY(0)' : 'translateY(100%)', transition:'transform 0.4s cubic-bezier(0.4,0,0.2,1)', fontFamily:'var(--font-body)' }}>
+
+        {/* Handle + Header */}
+        <div style={{ padding:'12px 16px 0', flexShrink:0 }}>
+          <div style={{ width:'40px', height:'4px', background:'var(--color-border)', borderRadius:'2px', margin:'0 auto 14px' }} />
+          <div style={{ position:'relative' }}>
+            <div style={{ fontFamily:'var(--font-display)', fontSize:'1.6rem', fontStyle:'italic', color:'var(--color-text)' }}>âœ¦ AI Stylist</div>
+            <div style={{ fontSize:'0.75rem', color:'var(--color-text-muted)', marginTop:'2px' }}>Powered by contextual fashion AI</div>
+            <button onClick={onClose} style={{ position:'absolute', top:0, right:0, background:'none', border:'none', fontSize:'1.4rem', cursor:'pointer', color:'var(--color-text-muted)' }}>Ã—</button>
+          </div>
+        </div>
+
+        {/* Controls */}
+        <div style={{ padding:'12px 16px', borderBottom:'1px solid var(--color-border)', flexShrink:0 }}>
+          {/* Row 1: Modest Mode */}
+          <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'10px' }}>
+            <span style={{ fontWeight:500, fontSize:'0.85rem' }}>Modest Mode</span>
+            <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
+              {isModestMode && (
+                <span style={{ background:'var(--color-sage-light)', color:'var(--color-sage-dark)', borderRadius:'var(--radius-pill)', padding:'3px 10px', fontSize:'0.72rem', fontWeight:500 }}>
+                  ðŸŒ™ Modest filters active
+                </span>
+              )}
+              <div onClick={() => setIsModestMode(m => !m)}
+                style={{ width:'48px', height:'26px', borderRadius:'var(--radius-pill)', background: isModestMode ? 'var(--color-sage)' : '#D0C8C0', cursor:'pointer', position:'relative', transition:'var(--transition)', flexShrink:0 }}>
+                <div style={{ position:'absolute', top:'3px', width:'20px', height:'20px', borderRadius:'50%', background:'white', boxShadow:'0 1px 3px rgba(0,0,0,0.2)', transition:'left 0.2s ease', left: isModestMode ? '25px' : '3px' }} />
+              </div>
+            </div>
+          </div>
+          {/* Row 2: Personality Slider */}
+          <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
+            <span style={{ fontSize:'0.82rem', fontWeight:500, flexShrink:0, color:'var(--color-text)' }}>Style Voice:</span>
+            <span style={{ fontSize:'0.75rem', color: personalityMode==='hype' ? 'var(--color-sage-dark)' : 'var(--color-text-muted)', fontWeight: personalityMode==='hype'?600:400 }}>ðŸŒ¸ Hype</span>
+            <input type="range" min={0} max={1} step={1} value={personalityMode==='hype' ? 0 : 1}
+              onChange={e => setPersonality(e.target.value === '0' ? 'hype' : 'honest')}
+              style={{ flex:1, accentColor:'var(--color-sage)' }} />
+            <span style={{ fontSize:'0.75rem', color: personalityMode==='honest' ? 'var(--color-sage-dark)' : 'var(--color-text-muted)', fontWeight: personalityMode==='honest'?600:400 }}>âœ‚ï¸ Honest</span>
+          </div>
+        </div>
+
+        {/* Chat Messages */}
+        <div style={{ flex:1, overflowY:'auto', padding:'12px 16px', display:'flex', flexDirection:'column', gap:'10px' }}>
+          {messages.map(msg => {
+            if (msg.role === 'user') {
+              return (
+                <div key={msg.id} style={{ alignSelf:'flex-end', maxWidth:'75%' }}>
+                  <div style={{ background:'var(--color-sage)', color:'white', borderRadius:'18px 18px 4px 18px', padding:'10px 16px', fontSize:'0.9rem', lineHeight:1.4 }}>{msg.text}</div>
+                  <div style={{ fontSize:'0.65rem', color:'var(--color-text-muted)', textAlign:'right', marginTop:'3px' }}>{formatTime(msg.timestamp)}</div>
+                </div>
+              );
+            }
+            return (
+              <div key={msg.id} style={{ alignSelf:'flex-start', width:'92%' }}>
+                <div style={{ background:'var(--color-surface)', borderRadius:'4px 18px 18px 18px', padding:'12px 16px', boxShadow:'var(--shadow-sm)', borderLeft:'3px solid var(--color-sage)' }}>
+                  <div style={{ fontSize:'0.88rem', lineHeight:1.6, color:'var(--color-text)' }}>{msg.text}</div>
+
+                  {/* Recommendation Cards */}
+                  {msg.recommendations && msg.recommendations.length > 0 && (
+                    <div style={{ display:'flex', gap:'10px', overflowX:'auto', marginTop:'12px', paddingBottom:'4px', scrollbarWidth:'none' }}>
+                      {msg.recommendations.map(item => (
+                        <div key={item.id} style={{ width:'110px', flexShrink:0, background:'var(--color-surface-2)', borderRadius:'var(--radius-md)', overflow:'hidden', boxShadow:'var(--shadow-sm)' }}>
+                          <img src={item.imageUrl} alt={item.name} style={{ width:'110px', height:'80px', objectFit:'cover', display:'block' }} />
+                          <div style={{ padding:'6px 8px' }}>
+                            <div style={{ fontSize:'0.72rem', fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{item.name}</div>
+                            <div style={{ fontSize:'0.62rem', color:'var(--color-text-muted)', textTransform:'uppercase', letterSpacing:'0.05em', marginTop:'1px' }}>{item.brand}</div>
+                            <button onClick={() => onAddToOutfit(item)}
+                              style={{ width:'100%', marginTop:'5px', background:'var(--color-sage)', color:'white', border:'none', borderRadius:'var(--radius-sm)', padding:'4px 0', fontSize:'0.7rem', cursor:'pointer', fontWeight:500 }}>
+                              + Add to Look
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Modesty params */}
+                  {msg.modesty_params && (
+                    <div style={{ fontSize:'0.72rem', color:'var(--color-sage-dark)', marginTop:'10px', fontStyle:'italic', lineHeight:1.5 }}>
+                      âœ¦ Filtered by: {msg.modesty_params}
+                    </div>
+                  )}
+                  <div style={{ fontSize:'0.65rem', color:'var(--color-text-muted)', marginTop:'6px' }}>{formatTime(msg.timestamp)}</div>
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Typing Indicator */}
+          {isTyping && (
+            <div style={{ alignSelf:'flex-start', width:'80px' }}>
+              <div style={{ background:'var(--color-surface)', borderRadius:'4px 18px 18px 18px', padding:'14px 16px', boxShadow:'var(--shadow-sm)', borderLeft:'3px solid var(--color-sage)', display:'flex', gap:'5px', alignItems:'center' }}>
+                {[0,1,2].map(i => (
+                  <div key={i} style={{ width:'8px', height:'8px', borderRadius:'50%', background:'var(--color-sage-light)', animation:'dotBounce 0.6s infinite', animationDelay: (i*0.2)+'s' }} />
+                ))}
+              </div>
+            </div>
+          )}
+          <div ref={messagesEndRef} />
+        </div>
+
+        {/* Suggested Prompts */}
+        <div style={{ flexShrink:0, overflowX:'auto', padding:'8px 16px', display:'flex', gap:'8px', scrollbarWidth:'none', borderTop:'1px solid var(--color-border)' }}>
+          {PROMPTS.map(p => (
+            <button key={p} onClick={() => handleSend(p)}
+              style={{ flexShrink:0, padding:'7px 14px', border:'1px solid var(--color-border)', borderRadius:'var(--radius-pill)', fontSize:'0.78rem', background:'var(--color-surface)', cursor:'pointer', whiteSpace:'nowrap', color:'var(--color-text)', transition:'var(--transition)' }}>
+              {p}
+            </button>
+          ))}
+        </div>
+
+        {/* Input Bar */}
+        <div style={{ flexShrink:0, padding:'10px 16px 16px', display:'flex', alignItems:'center', gap:'8px', background:'var(--color-surface)' }}>
+          <span style={{ fontSize:'1.2rem', color:'var(--color-text-muted)', cursor:'pointer', flexShrink:0 }}>ðŸŽ™</span>
+          <input
+            type="text"
+            value={inputText}
+            onChange={e => setInputText(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter') handleSend(); }}
+            placeholder="Ask your stylist..."
+            style={{ flex:1, padding:'10px 14px', borderRadius:'var(--radius-pill)', border:'1px solid var(--color-border)', background:'var(--color-surface-2)', fontSize:'0.9rem', outline:'none', fontFamily:'var(--font-body)' }}
+          />
+          <button onClick={handleSend}
+            style={{ width:'40px', height:'40px', borderRadius:'50%', background:'var(--color-sage)', color:'white', border:'none', fontSize:'1.1rem', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+            â†’
+          </button>
+        </div>
+      </div>
+    </>
+  );
+}
+
+  </script>
+  <script type="text/babel">
+// App.jsx â€” Global App Shell & State Manager
+// No import/export â€” global Babel CDN scope
+
+const { useState: useAppState, useCallback: useAppCallback } = React;
+
+function App() {
+  const [universalRack, setUniversalRack]   = useAppState(INITIAL_STATE.universalRack);
+  const [virtualCloset, setVirtualCloset]   = useAppState(INITIAL_STATE.virtualCloset);
+  const [activeOutfit, setActiveOutfit]     = useAppState([]);
+  const [modelConfig, setModelConfig]       = useAppState(INITIAL_STATE.modelConfig);
+  const [generations, setGenerations]       = useAppState(MOCK_GENERATIONS);
+  const [currentScreen, setCurrentScreen]  = useAppState('rack');
+  const [isStylistOpen, setIsStylistOpen]  = useAppState(false);
+  const [stylingOptions, setStylingOptions] = useAppState({});
+  const [toasts, setToasts]                = useAppState([]);
+
+  const showToast = useAppCallback((message) => {
+    const id = Date.now() + Math.random();
+    setToasts(prev => [...prev, { id, message }]);
+    setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3000);
+  }, []);
+
+  const handleAddItem = useAppCallback((item) => {
+    setActiveOutfit(prev => {
+      if (prev.some(i => i.id === item.id)) return prev;
+      showToast(item.name + ' added to your look!');
+      return [...prev, item];
+    });
+  }, [showToast]);
+
+  const handleRemoveItem = useAppCallback((id) => {
+    setActiveOutfit(prev => prev.filter(i => i.id !== id));
+  }, []);
+
+  const handleImportScreenshot = useAppCallback(({ file, dataUrl }) => {
+    // The dataUrl IS the image â€” use it directly so the item shows the real screenshot
+    const name = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ') || 'Screenshot Item';
+    const newItem = {
+      id: 'screenshot-' + Date.now(),
+      name: name.charAt(0).toUpperCase() + name.slice(1),
+      brand: 'From Screenshot',
+      price: 'See original',
+      category: 'top',
+      styling_type: null,
+      owned: false,
+      imageUrl: dataUrl,
+      sourceUrl: '',
+      isScreenshot: true,
+    };
+    setUniversalRack(prev => [newItem, ...prev]);
+    showToast('Screenshot added to your rack! ðŸ“¸');
+  }, [showToast]);
+
+  const handleImportUrl = useAppCallback((url) => {
+    const domain = (() => { try { return new URL(url).hostname.replace('www.',''); } catch(e) { return 'store'; } })();
+    const newItem = {
+      id: 'imported-' + Date.now(),
+      name: 'Imported Item',
+      brand: domain || 'Online Store',
+      price: 'See site',
+      category: 'top',
+      styling_type: 'tuckable',
+      owned: false,
+      imageUrl: 'https://picsum.photos/seed/import' + Date.now() + '/400/500',
+      sourceUrl: url,
+    };
+    setUniversalRack(prev => [newItem, ...prev]);
+    showToast('Item imported from ' + domain + '! ðŸŽ‰');
+  }, [showToast]);
+
+  const handleUploadOwn = useAppCallback((file) => {
+    const newItem = {
+      id: 'closet-uploaded-' + Date.now(),
+      name: file ? file.name.replace(/\.[^.]+$/, '') : 'My Item',
+      brand: 'My Closet',
+      price: '$0',
+      category: 'top',
+      styling_type: null,
+      owned: true,
+      imageUrl: 'https://picsum.photos/seed/upload' + Date.now() + '/400/500',
+      sourceUrl: '',
+    };
+    setVirtualCloset(prev => [newItem, ...prev]);
+    showToast('Added to your closet! ðŸ‘—');
+  }, [showToast]);
+
+  const handleChangeModel = useAppCallback((config) => {
+    setModelConfig(config);
+    showToast('Model updated!');
+  }, [showToast]);
+
+  const handleUpdateStylingOption = useAppCallback((itemId, option, value) => {
+    setStylingOptions(prev => ({
+      ...prev,
+      [itemId]: { ...(prev[itemId] || {}), [option]: value },
+    }));
+  }, []);
+
+  const handleVisualize = useAppCallback(() => {
+    const newGen = {
+      id: 'gen-' + Date.now(),
+      timestamp: new Date().toISOString(),
+      imageUrl: 'https://picsum.photos/seed/gen' + Date.now() + '/600/800',
+      items: activeOutfit.map(i => i.id),
+      label: 'My Look',
+    };
+    setGenerations(prev => [newGen, ...prev]);
+  }, [activeOutfit]);
+
+  const handleShopLook = useAppCallback(() => {
+    showToast('Opening checkout for ' + activeOutfit.length + ' items... ðŸ›ï¸');
+  }, [activeOutfit, showToast]);
+
+  const combinedRack = [...universalRack, ...virtualCloset];
+
+  return (
+    <div style={{ position:'relative', minHeight:'100vh', background:'var(--color-bg)', paddingBottom: currentScreen === 'rack' ? '56px' : '0' }}>
+
+      {/* Screen Content */}
+      {currentScreen === 'rack' && (
+        <UniversalRack
+          rack={combinedRack}
+          activeOutfit={activeOutfit}
+          onAddItem={handleAddItem}
+          onRemoveItem={handleRemoveItem}
+          onImportUrl={handleImportUrl}
+          onImportScreenshot={handleImportScreenshot}
+          onUploadOwn={handleUploadOwn}
+          onOpenFittingRoom={() => setCurrentScreen('fitting-room')}
+          onOpenStylist={() => setIsStylistOpen(true)}
+        />
+      )}
+
+      {currentScreen === 'fitting-room' && (
+        <FittingRoom
+          activeOutfit={activeOutfit}
+          modelConfig={modelConfig}
+          generations={generations}
+          stylingOptions={stylingOptions}
+          onChangeModel={handleChangeModel}
+          onUpdateStylingOption={handleUpdateStylingOption}
+          onVisualize={handleVisualize}
+          onRemoveItem={handleRemoveItem}
+          onShopLook={handleShopLook}
+          onBack={() => setCurrentScreen('rack')}
+          onOpenStylist={() => setIsStylistOpen(true)}
+        />
+      )}
+
+      {/* AI Stylist â€” always rendered, slides in/out */}
+      <AIStylist
+        isOpen={isStylistOpen}
+        onClose={() => setIsStylistOpen(false)}
+        rack={combinedRack}
+        activeOutfit={activeOutfit}
+        aiResponses={MOCK_AI_RESPONSES}
+        onAddToOutfit={handleAddItem}
+      />
+
+      {/* Bottom Nav */}
+      <div style={{ position:'fixed', bottom:0, left:0, right:0, maxWidth:'430px', margin:'0 auto', height:'56px', background:'var(--color-surface)', borderTop:'1px solid var(--color-border)', display:'flex', zIndex:50, fontFamily:'var(--font-body)' }}>
+        {[
+          { icon:'ðŸ ', label:'Rack', screen:'rack', disabled:false, action: () => setCurrentScreen('rack') },
+          { icon:'ðŸ‘—', label:'Try On', screen:'fitting-room', disabled: activeOutfit.length === 0, action: () => { if (activeOutfit.length > 0) setCurrentScreen('fitting-room'); } },
+          { icon:'âœ¦', label:'Stylist', screen:null, disabled:false, action: () => setIsStylistOpen(true), isDisplay:true },
+        ].map(tab => {
+          const isActive = tab.screen ? currentScreen === tab.screen : isStylistOpen;
+          return (
+            <button key={tab.label} onClick={tab.action}
+              style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:'2px', border:'none', background:'none', cursor: tab.disabled ? 'not-allowed' : 'pointer', opacity: tab.disabled ? 0.4 : 1, color: isActive ? 'var(--color-sage)' : 'var(--color-text-muted)', transition:'var(--transition)' }}>
+              <span style={{ fontSize: tab.isDisplay ? '1.1rem' : '1.3rem', fontFamily: tab.isDisplay ? 'var(--font-display)' : 'inherit', lineHeight:1 }}>{tab.icon}</span>
+              <span style={{ fontSize:'0.62rem', fontWeight: isActive ? 600 : 400, letterSpacing:'0.03em' }}>{tab.label}</span>
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Toast Notifications */}
+      <div style={{ position:'fixed', top:'16px', left:'50%', transform:'translateX(-50%)', zIndex:300, display:'flex', flexDirection:'column', gap:'8px', alignItems:'center', pointerEvents:'none', width:'max-content', maxWidth:'360px' }}>
+        {toasts.map(toast => (
+          <div key={toast.id} style={{ background:'var(--color-cta)', color:'white', padding:'10px 20px', borderRadius:'var(--radius-pill)', fontSize:'0.85rem', boxShadow:'var(--shadow-md)', whiteSpace:'nowrap', animation:'slideDown 0.3s ease', fontFamily:'var(--font-body)' }}>
+            {toast.message}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+  </script>
   <script type="text/babel">
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(React.createElement(App));

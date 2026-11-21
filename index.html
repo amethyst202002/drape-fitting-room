@@ -1,56 +1,40 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#FAF9F7">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>DRAPE - Virtual Fitting Room</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>    :root {
-      --color-bg:#FAF9F7; --color-surface:#FFFFFF; --color-surface-2:#F4F1EC;
-      --color-border:#E8E2D9; --color-sage:#8A9E8C; --color-sage-light:#C8D8C9;
-      --color-sage-dark:#5A7A5C; --color-beige:#C9B99A; --color-beige-light:#EDE7DC;
-      --color-beige-dark:#9A8060; --color-text:#2C2825; --color-text-muted:#8A7F74;
-      --color-text-light:#B5ADA3; --color-cta:#3D3530; --color-cta-hover:#5A4F48;
-      --color-danger:#C97A6A; --color-gold:#C4A96D; --color-accent:#8A9E8C;
-      --radius-sm:8px; --radius-md:14px; --radius-lg:20px; --radius-xl:28px; --radius-pill:999px;
-      --shadow-sm:0 1px 4px rgba(44,40,37,0.07); --shadow-md:0 4px 16px rgba(44,40,37,0.10);
-      --shadow-lg:0 12px 40px rgba(44,40,37,0.14);
-      --font-display:'Cormorant Garamond',Georgia,serif;
-      --font-body:'Inter',system-ui,sans-serif;
-      --transition:0.22s cubic-bezier(0.4,0,0.2,1);
-    }
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%;overflow-x:hidden}
-    body{font-family:var(--font-body);background:#E0D8D0;color:var(--color-text);-webkit-font-smoothing:antialiased}
-    #root{max-width:430px;margin:0 auto;min-height:100vh;position:relative;background:var(--color-bg);box-shadow:0 0 60px rgba(0,0,0,0.15);overflow-x:hidden}
-    @media(max-width:430px){body{background:var(--color-bg)}#root{box-shadow:none}}
-    ::-webkit-scrollbar{width:4px;height:4px}
-    ::-webkit-scrollbar-track{background:var(--color-surface-2)}
-    ::-webkit-scrollbar-thumb{background:var(--color-sage-light);border-radius:4px}
-    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-    @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
-    @keyframes slideDown{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-    @keyframes dotBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-    @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
-    input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:var(--color-sage-light);outline:none;cursor:pointer}
-    input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--color-beige-dark);cursor:pointer;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
-    button,input,select,textarea{font-family:var(--font-body)}</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#FAF9F7">
+<title>DRAPE - Virtual Fitting Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>:root{--color-bg:#FAF9F7;--color-surface:#FFFFFF;--color-surface-2:#F4F1EC;--color-border:#E8E2D9;--color-sage:#8A9E8C;--color-sage-light:#C8D8C9;--color-sage-dark:#5A7A5C;--color-beige:#C9B99A;--color-beige-light:#EDE7DC;--color-beige-dark:#9A8060;--color-text:#2C2825;--color-text-muted:#8A7F74;--color-text-light:#B5ADA3;--color-cta:#3D3530;--color-cta-hover:#5A4F48;--color-danger:#C97A6A;--color-gold:#C4A96D;--color-accent:#8A9E8C;--radius-sm:8px;--radius-md:14px;--radius-lg:20px;--radius-xl:28px;--radius-pill:999px;--shadow-sm:0 1px 4px rgba(44,40,37,.07);--shadow-md:0 4px 16px rgba(44,40,37,.10);--shadow-lg:0 12px 40px rgba(44,40,37,.14);--font-display:'Cormorant Garamond',Georgia,serif;--font-body:'Inter',system-ui,sans-serif;--transition:.22s cubic-bezier(.4,0,.2,1)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow-x:hidden}
+body{font-family:var(--font-body);background:#E0D8D0;color:var(--color-text);-webkit-font-smoothing:antialiased}
+#root{max-width:430px;margin:0 auto;min-height:100vh;position:relative;background:var(--color-bg);box-shadow:0 0 60px rgba(0,0,0,.15);overflow-x:hidden}
+@media(max-width:430px){body{background:var(--color-bg)}#root{box-shadow:none}}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-track{background:var(--color-surface-2)}::-webkit-scrollbar-thumb{background:var(--color-sage-light);border-radius:4px}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes slideDown{from{transform:translateY(-20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+@keyframes dotBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:var(--color-sage-light);outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--color-beige-dark);cursor:pointer;border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+button,input,select,textarea{font-family:var(--font-body)}</style>
 </head>
 <body>
-  <div id="root"></div>
-  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script type="text/babel">
-const {
-  useState, useEffect, useRef, useCallback, useMemo
-} = React;
+<div id="root"></div>
+<script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+// === ONE shared React destructure ===
+const { useState, useEffect, useRef, useCallback, useMemo } = React;
 
+// === MOCK DATA ===
 // mockData.js — Global mock state for DRAPE Virtual Fitting Room
 // No import/export — loaded as global script via Babel CDN
 
@@ -139,6 +123,7 @@ const MOCK_GENERATIONS = [
 ];
 
 
+// === UNIVERSAL RACK ===
 // UniversalRack.jsx — Screen 1: Home / Universal Rack
 // No import/export — global Babel CDN scope
 
@@ -417,6 +402,7 @@ function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUr
 }
 
 
+// === FITTING ROOM ===
 // FittingRoom.jsx — Screen 2: The Core Fitting Engine
 // No import/export — global Babel CDN scope
 
@@ -690,21 +676,22 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
 }
 
 
+// === AI STYLIST ===
 // AIStylist.jsx — Screen 3: AI Stylist Chat Drawer
 // No import/export — global Babel CDN scope
 
 
 
 function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOutfit }) {
-  const [messages, setMessages]           = useStylistState([]);
-  const [inputText, setInputText]         = useStylistState('');
-  const [isModestMode, setIsModestMode]   = useStylistState(true);
-  const [personalityMode, setPersonality] = useStylistState('hype');
-  const [isTyping, setIsTyping]           = useStylistState(false);
-  const messagesEndRef                    = useStylistRef(null);
+  const [messages, setMessages]           = useState([]);
+  const [inputText, setInputText]         = useState('');
+  const [isModestMode, setIsModestMode]   = useState(true);
+  const [personalityMode, setPersonality] = useState('hype');
+  const [isTyping, setIsTyping]           = useState(false);
+  const messagesEndRef                    = useRef(null);
 
   // Initial greeting
-  useStylistEffect(() => {
+  useEffect(() => {
     const rackLen = rack ? rack.length : 0;
     setMessages([{
       id: 1,
@@ -717,7 +704,7 @@ function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOu
   }, []);
 
   // Auto-scroll
-  useStylistEffect(() => {
+  useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior:'smooth' });
     }
@@ -916,29 +903,31 @@ function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOu
 }
 
 
+
+// === APP SHELL ===
 // App.jsx — Global App Shell & State Manager
 // No import/export — global Babel CDN scope
 
 
 
 function App() {
-  const [universalRack, setUniversalRack]   = useAppState(INITIAL_STATE.universalRack);
-  const [virtualCloset, setVirtualCloset]   = useAppState(INITIAL_STATE.virtualCloset);
-  const [activeOutfit, setActiveOutfit]     = useAppState([]);
-  const [modelConfig, setModelConfig]       = useAppState(INITIAL_STATE.modelConfig);
-  const [generations, setGenerations]       = useAppState(MOCK_GENERATIONS);
-  const [currentScreen, setCurrentScreen]  = useAppState('rack');
-  const [isStylistOpen, setIsStylistOpen]  = useAppState(false);
-  const [stylingOptions, setStylingOptions] = useAppState({});
-  const [toasts, setToasts]                = useAppState([]);
+  const [universalRack, setUniversalRack]   = useState(INITIAL_STATE.universalRack);
+  const [virtualCloset, setVirtualCloset]   = useState(INITIAL_STATE.virtualCloset);
+  const [activeOutfit, setActiveOutfit]     = useState([]);
+  const [modelConfig, setModelConfig]       = useState(INITIAL_STATE.modelConfig);
+  const [generations, setGenerations]       = useState(MOCK_GENERATIONS);
+  const [currentScreen, setCurrentScreen]  = useState('rack');
+  const [isStylistOpen, setIsStylistOpen]  = useState(false);
+  const [stylingOptions, setStylingOptions] = useState({});
+  const [toasts, setToasts]                = useState([]);
 
-  const showToast = useAppCallback((message) => {
+  const showToast = useCallback((message) => {
     const id = Date.now() + Math.random();
     setToasts(prev => [...prev, { id, message }]);
     setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 3000);
   }, []);
 
-  const handleAddItem = useAppCallback((item) => {
+  const handleAddItem = useCallback((item) => {
     setActiveOutfit(prev => {
       if (prev.some(i => i.id === item.id)) return prev;
       showToast(item.name + ' added to your look!');
@@ -946,11 +935,11 @@ function App() {
     });
   }, [showToast]);
 
-  const handleRemoveItem = useAppCallback((id) => {
+  const handleRemoveItem = useCallback((id) => {
     setActiveOutfit(prev => prev.filter(i => i.id !== id));
   }, []);
 
-  const handleImportScreenshot = useAppCallback(({ file, dataUrl }) => {
+  const handleImportScreenshot = useCallback(({ file, dataUrl }) => {
     // The dataUrl IS the image — use it directly so the item shows the real screenshot
     const name = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ') || 'Screenshot Item';
     const newItem = {
@@ -969,7 +958,7 @@ function App() {
     showToast('Screenshot added to your rack! 📸');
   }, [showToast]);
 
-  const handleImportUrl = useAppCallback((url) => {
+  const handleImportUrl = useCallback((url) => {
     const domain = (() => { try { return new URL(url).hostname.replace('www.',''); } catch(e) { return 'store'; } })();
     const newItem = {
       id: 'imported-' + Date.now(),
@@ -986,7 +975,7 @@ function App() {
     showToast('Item imported from ' + domain + '! 🎉');
   }, [showToast]);
 
-  const handleUploadOwn = useAppCallback((file) => {
+  const handleUploadOwn = useCallback((file) => {
     const newItem = {
       id: 'closet-uploaded-' + Date.now(),
       name: file ? file.name.replace(/\.[^.]+$/, '') : 'My Item',
@@ -1002,19 +991,19 @@ function App() {
     showToast('Added to your closet! 👗');
   }, [showToast]);
 
-  const handleChangeModel = useAppCallback((config) => {
+  const handleChangeModel = useCallback((config) => {
     setModelConfig(config);
     showToast('Model updated!');
   }, [showToast]);
 
-  const handleUpdateStylingOption = useAppCallback((itemId, option, value) => {
+  const handleUpdateStylingOption = useCallback((itemId, option, value) => {
     setStylingOptions(prev => ({
       ...prev,
       [itemId]: { ...(prev[itemId] || {}), [option]: value },
     }));
   }, []);
 
-  const handleVisualize = useAppCallback(() => {
+  const handleVisualize = useCallback(() => {
     const newGen = {
       id: 'gen-' + Date.now(),
       timestamp: new Date().toISOString(),
@@ -1025,7 +1014,7 @@ function App() {
     setGenerations(prev => [newGen, ...prev]);
   }, [activeOutfit]);
 
-  const handleShopLook = useAppCallback(() => {
+  const handleShopLook = useCallback(() => {
     showToast('Opening checkout for ' + activeOutfit.length + ' items... 🛍️');
   }, [activeOutfit, showToast]);
 
@@ -1105,10 +1094,10 @@ function App() {
   );
 }
 
-// Mount
-const rootEl = document.getElementById('root');
-const reactRoot = ReactDOM.createRoot(rootEl);
-reactRoot.render(React.createElement(App));
-  </script>
+
+
+// === MOUNT ===
+ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(App));
+</script>
 </body>
 </html>

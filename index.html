@@ -5,22 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#FAF9F7">
   <meta name="apple-mobile-web-app-capable" content="yes">
-  <title>DRAPE — Virtual Fitting Room</title>
+  <title>DRAPE - Virtual Fitting Room</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
+  <style>    :root {
       --color-bg:#FAF9F7; --color-surface:#FFFFFF; --color-surface-2:#F4F1EC;
       --color-border:#E8E2D9; --color-sage:#8A9E8C; --color-sage-light:#C8D8C9;
       --color-sage-dark:#5A7A5C; --color-beige:#C9B99A; --color-beige-light:#EDE7DC;
       --color-beige-dark:#9A8060; --color-text:#2C2825; --color-text-muted:#8A7F74;
       --color-text-light:#B5ADA3; --color-cta:#3D3530; --color-cta-hover:#5A4F48;
       --color-danger:#C97A6A; --color-gold:#C4A96D; --color-accent:#8A9E8C;
-      --radius-sm:8px; --radius-md:14px; --radius-lg:20px; --radius-xl:28px;
-      --radius-pill:999px;
-      --shadow-sm:0 1px 4px rgba(44,40,37,0.07);
-      --shadow-md:0 4px 16px rgba(44,40,37,0.10);
+      --radius-sm:8px; --radius-md:14px; --radius-lg:20px; --radius-xl:28px; --radius-pill:999px;
+      --shadow-sm:0 1px 4px rgba(44,40,37,0.07); --shadow-md:0 4px 16px rgba(44,40,37,0.10);
       --shadow-lg:0 12px 40px rgba(44,40,37,0.14);
       --font-display:'Cormorant Garamond',Georgia,serif;
       --font-body:'Inter',system-ui,sans-serif;
@@ -42,8 +39,7 @@
     @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
     input[type=range]{-webkit-appearance:none;height:4px;border-radius:2px;background:var(--color-sage-light);outline:none;cursor:pointer}
     input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--color-beige-dark);cursor:pointer;border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,0.2)}
-    button,input,select,textarea{font-family:var(--font-body)}
-  </style>
+    button,input,select,textarea{font-family:var(--font-body)}</style>
 </head>
 <body>
   <div id="root"></div>
@@ -51,8 +47,12 @@
   <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script type="text/babel">
-// mockData.js â€” Global mock state for DRAPE Virtual Fitting Room
-// No import/export â€” loaded as global script via Babel CDN
+const {
+  useState, useEffect, useRef, useCallback, useMemo
+} = React;
+
+// mockData.js — Global mock state for DRAPE Virtual Fitting Room
+// No import/export — loaded as global script via Babel CDN
 
 const MOCK_RACK = [
   { id:'item-1', name:'Relaxed Linen Shirt', brand:'Massimo Dutti', price:'$89', category:'top', styling_type:'tuckable', owned:false, imageUrl:'https://picsum.photos/seed/garment1/400/500', sourceUrl:'https://www.massimodutti.com/product/linen-shirt' },
@@ -138,12 +138,11 @@ const MOCK_GENERATIONS = [
   { id:'gen-3', timestamp: new Date(Date.now() - 3*60*60*1000).toISOString(), imageUrl:'https://picsum.photos/seed/gen3/600/800', items:['item-3','item-6','item-8'], label:'Editorial Street Style' },
 ];
 
-  </script>
-  <script type="text/babel">
-// UniversalRack.jsx â€” Screen 1: Home / Universal Rack
-// No import/export â€” global Babel CDN scope
 
-const { useState, useRef } = React;
+// UniversalRack.jsx — Screen 1: Home / Universal Rack
+// No import/export — global Babel CDN scope
+
+
 
 function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUrl, onUploadOwn, onImportScreenshot, onOpenFittingRoom, onOpenStylist }) {
   const [activeFilter, setActiveFilter] = useState('All');
@@ -253,10 +252,10 @@ function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUr
           </div>
           <div style={{ display:'flex', gap:'4px', paddingTop:'4px' }}>
             <button style={s.iconBtn} title="My Closet">
-              ðŸ‘—
+              👗
               {ownedCount > 0 && <span style={s.badge}>{ownedCount}</span>}
             </button>
-            <button style={s.iconBtn} onClick={onOpenStylist} title="AI Stylist">âœ¦</button>
+            <button style={s.iconBtn} onClick={onOpenStylist} title="AI Stylist">✦</button>
           </div>
         </div>
       </div>
@@ -264,23 +263,23 @@ function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUr
       {/* Import Bar */}
       <div style={s.importBar}>
         <button style={s.sageBtnFull} onClick={() => { setShowImportModal(true); setImportStep(0); }}>
-          <span>â¬†</span> Import from any store
+          <span>⬆</span> Import from any store
         </button>
         <input type="file" ref={fileInputRef} style={{ display:'none' }} accept="image/*" onChange={handleFileChange} />
         <button style={s.outlineBtn} onClick={() => fileInputRef.current && fileInputRef.current.click()}>
           + Upload My Own
         </button>
 
-        {/* Screenshot import â€” camera icon, prominent */}
+        {/* Screenshot import — camera icon, prominent */}
         <input type="file" ref={screenshotInputRef} style={{ display:'none' }} accept="image/*" capture="environment" onChange={handleScreenshotChange} />
         <button
           style={{ ...s.outlineBtn, marginTop:'8px', display:'flex', alignItems:'center', justifyContent:'center', gap:'8px', borderColor:'var(--color-beige-dark)', color:'var(--color-beige-dark)', fontWeight:600 }}
           onClick={() => screenshotInputRef.current && screenshotInputRef.current.click()}
         >
-          ðŸ“¸ Add Screenshot from Any Site
+          📸 Add Screenshot from Any Site
         </button>
         <div style={{ fontSize:'0.7rem', color:'var(--color-text-light)', textAlign:'center', marginTop:'6px' }}>
-          Screenshot a product anywhere â†’ upload here âœ¦ no sharing required
+          Screenshot a product anywhere → upload here ✦ no sharing required
         </div>
         <div style={s.storeNote}>Works with Zara, ASOS, Modanisa, Net-a-Porter + 500 more</div>
       </div>
@@ -317,12 +316,12 @@ function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUr
               <div style={s.imgWrap(inOutfit)}>
                 <img src={item.imageUrl} alt={item.name} style={s.img} loading="lazy" />
                 {item.owned && <span style={s.mineBadge}>MINE</span>}
-                {item.isScreenshot && <span style={{ ...s.mineBadge, background:'var(--color-beige-dark)', left:'auto', right:'8px' }}>ðŸ“¸</span>}
+                {item.isScreenshot && <span style={{ ...s.mineBadge, background:'var(--color-beige-dark)', left:'auto', right:'8px' }}>📸</span>}
                 <button
                   style={s.addBtn(inOutfit)}
                   onClick={(e) => { e.stopPropagation(); inOutfit ? onRemoveItem(item.id) : onAddItem(item); }}
                 >
-                  {inOutfit ? 'âœ“' : '+'}
+                  {inOutfit ? '✓' : '+'}
                 </button>
               </div>
               <div style={s.cardInfo}>
@@ -337,7 +336,7 @@ function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUr
 
       {filteredRack.length === 0 && (
         <div style={{ textAlign:'center', padding:'40px 20px', color:'var(--color-text-muted)' }}>
-          <div style={{ fontSize:'2.5rem', marginBottom:'12px' }}>âœ¦</div>
+          <div style={{ fontSize:'2.5rem', marginBottom:'12px' }}>✦</div>
           <div style={{ fontFamily:'var(--font-display)', fontSize:'1.3rem' }}>Nothing here yet</div>
           <div style={{ fontSize:'0.85rem', marginTop:'6px' }}>Import from a store or upload your own items</div>
         </div>
@@ -355,7 +354,7 @@ function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUr
             ))}
           </div>
           <button style={s.ctaBtn} onClick={onOpenFittingRoom}>
-            Enter Fitting Room â†’
+            Enter Fitting Room →
           </button>
         </div>
       )}
@@ -417,12 +416,11 @@ function UniversalRack({ rack, activeOutfit, onAddItem, onRemoveItem, onImportUr
   );
 }
 
-  </script>
-  <script type="text/babel">
-// FittingRoom.jsx â€” Screen 2: The Core Fitting Engine
-// No import/export â€” global Babel CDN scope
 
-const { useState, useEffect, useRef } = React;
+// FittingRoom.jsx — Screen 2: The Core Fitting Engine
+// No import/export — global Babel CDN scope
+
+
 
 const LOADING_MSGS = [
   'Scanning fabric textures...',
@@ -475,7 +473,7 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
 
       {/* Top Bar */}
       <div style={{ flexShrink:0, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'12px 16px', background:'var(--color-surface)', borderBottom:'1px solid var(--color-border)' }}>
-        <button onClick={onBack} style={{ background:'none', border:'none', cursor:'pointer', fontSize:'1.4rem', padding:'4px 8px', color:'var(--color-text)' }}>â†</button>
+        <button onClick={onBack} style={{ background:'none', border:'none', cursor:'pointer', fontSize:'1.4rem', padding:'4px 8px', color:'var(--color-text)' }}>←</button>
         <span style={{ fontFamily:'var(--font-display)', fontSize:'1.3rem', fontWeight:400 }}>Fitting Room</span>
         <button onClick={onShopLook} style={{ background:'none', border:'none', cursor:'pointer', color:'var(--color-gold)', fontWeight:600, fontSize:'0.9rem' }}>Shop Look</button>
       </div>
@@ -505,11 +503,11 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
           Change Model
         </button>
         <button onClick={() => setIsFlipped(f => !f)} style={{ position:'absolute', top:'12px', right:'12px', width:'36px', height:'36px', borderRadius:'50%', background:'rgba(0,0,0,0.5)', color:'white', border:'none', fontSize:'1rem', cursor:'pointer', zIndex:2, display:'flex', alignItems:'center', justifyContent:'center' }}>
-          ðŸ”„
+          🔄
         </button>
         {generatedImage && (
           <div style={{ position:'absolute', bottom:'12px', left:'12px', background:'var(--color-gold)', color:'white', padding:'4px 10px', borderRadius:'var(--radius-pill)', fontSize:'0.72rem', fontWeight:700, zIndex:2 }}>
-            âœ¨ New
+            ✨ New
           </div>
         )}
       </div>
@@ -522,7 +520,7 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
 
         {activeOutfit.length === 0 && (
           <div style={{ textAlign:'center', padding:'20px', color:'var(--color-text-muted)' }}>
-            <div style={{ fontSize:'2rem', marginBottom:'8px' }}>ðŸ‘—</div>
+            <div style={{ fontSize:'2rem', marginBottom:'8px' }}>👗</div>
             <div style={{ fontSize:'0.85rem' }}>No items selected yet. Go back to add pieces.</div>
           </div>
         )}
@@ -537,7 +535,7 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
                   <div style={{ fontWeight:600, fontSize:'0.85rem' }}>{item.name}</div>
                   <div style={{ fontSize:'0.72rem', color:'var(--color-text-muted)', marginTop:'2px' }}>{item.brand}</div>
                 </div>
-                <button onClick={() => onRemoveItem(item.id)} style={{ background:'none', border:'none', fontSize:'1.3rem', color:'var(--color-text-muted)', cursor:'pointer', padding:'4px' }}>Ã—</button>
+                <button onClick={() => onRemoveItem(item.id)} style={{ background:'none', border:'none', fontSize:'1.3rem', color:'var(--color-text-muted)', cursor:'pointer', padding:'4px' }}>×</button>
               </div>
 
               {/* Styling Controls */}
@@ -591,7 +589,7 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
       <div style={{ flexShrink:0, padding:'10px 12px 0' }}>
         <button onClick={handleVisualize} disabled={isLoading || activeOutfit.length === 0}
           style={{ width:'100%', height:'54px', background: (isLoading || activeOutfit.length===0) ? 'var(--color-text-muted)' : 'var(--color-cta)', color:'white', border:'none', borderRadius:'var(--radius-md)', fontFamily:'var(--font-display)', fontSize:'1.2rem', cursor: (isLoading || activeOutfit.length===0) ? 'not-allowed' : 'pointer', letterSpacing:'0.05em', transition:'var(--transition)' }}>
-          {isLoading ? 'Generating...' : 'âœ¨ Visualize Fit'}
+          {isLoading ? 'Generating...' : '✨ Visualize Fit'}
         </button>
       </div>
 
@@ -607,7 +605,7 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
         ))}
         <button onClick={() => setShowCompare(true)}
           style={{ marginLeft:'auto', flexShrink:0, padding:'6px 14px', border:'1px solid var(--color-sage)', borderRadius:'var(--radius-pill)', background:'white', color:'var(--color-sage)', fontSize:'0.78rem', cursor:'pointer', whiteSpace:'nowrap' }}>
-          âŠž Compare
+          ⊞ Compare
         </button>
       </div>
 
@@ -615,29 +613,29 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
       {showModelModal && (
         <div style={{ position:'fixed', inset:0, zIndex:100, background:'rgba(0,0,0,0.5)', overflow:'auto' }}>
           <div style={{ background:'var(--color-surface)', minHeight:'100%', padding:'20px', position:'relative' }}>
-            <button onClick={() => setShowModelModal(false)} style={{ position:'absolute', top:'16px', right:'16px', background:'none', border:'none', fontSize:'1.5rem', cursor:'pointer', zIndex:1 }}>Ã—</button>
+            <button onClick={() => setShowModelModal(false)} style={{ position:'absolute', top:'16px', right:'16px', background:'none', border:'none', fontSize:'1.5rem', cursor:'pointer', zIndex:1 }}>×</button>
             <div style={{ fontFamily:'var(--font-display)', fontSize:'1.6rem', marginBottom:'24px', paddingRight:'40px' }}>Change Model</div>
 
             {/* Section A: Upload Photo */}
-            <div style={{ marginBottom:'4px', fontSize:'0.72rem', textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--color-text-muted)', fontWeight:600 }}>ðŸ“¸ Upload Your Photo</div>
+            <div style={{ marginBottom:'4px', fontSize:'0.72rem', textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--color-text-muted)', fontWeight:600 }}>📸 Upload Your Photo</div>
             <div style={{ position:'relative', border:'2px dashed var(--color-border)', borderRadius:'var(--radius-md)', height:'160px', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', background:'var(--color-surface-2)', marginTop:'8px' }}>
-              <div style={{ fontSize:'2rem', marginBottom:'8px' }}>ðŸ“·</div>
+              <div style={{ fontSize:'2rem', marginBottom:'8px' }}>📷</div>
               <div style={{ fontSize:'0.9rem', color:'var(--color-text-muted)' }}>Drop photo here or tap to browse</div>
               {/* Corner handles */}
               {[{top:'14px',left:'14px'},{top:'14px',right:'14px'},{bottom:'14px',left:'14px'},{bottom:'14px',right:'14px'}].map((pos,i) => (
                 <div key={i} style={{ position:'absolute', width:'12px', height:'12px', border:'2px solid var(--color-sage)', ...pos }} />
               ))}
             </div>
-            <div style={{ fontSize:'0.75rem', color:'var(--color-text-muted)', fontStyle:'italic', marginTop:'8px', marginBottom:'20px' }}>ðŸ”’ Head is auto-cropped for privacy</div>
+            <div style={{ fontSize:'0.75rem', color:'var(--color-text-muted)', fontStyle:'italic', marginTop:'8px', marginBottom:'20px' }}>🔒 Head is auto-cropped for privacy</div>
 
             <div style={{ height:'1px', background:'var(--color-border)', margin:'20px 0' }} />
 
             {/* Section B: Timed Selfie */}
-            <div style={{ marginBottom:'4px', fontSize:'0.72rem', textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--color-text-muted)', fontWeight:600 }}>â± Timed Selfie</div>
+            <div style={{ marginBottom:'4px', fontSize:'0.72rem', textTransform:'uppercase', letterSpacing:'0.1em', color:'var(--color-text-muted)', fontWeight:600 }}>⏱ Timed Selfie</div>
             <div style={{ textAlign:'center', padding:'20px 0' }}>
-              <div style={{ fontSize:'3rem' }}>ðŸ“·</div>
+              <div style={{ fontSize:'3rem' }}>📷</div>
               <div style={{ display:'inline-block', background:'var(--color-gold)', color:'white', borderRadius:'var(--radius-pill)', padding:'4px 14px', fontSize:'0.8rem', fontWeight:600, margin:'10px 0' }}>10s Timer</div>
-              <div style={{ fontSize:'0.85rem', color:'var(--color-text-muted)' }}>Strike a pose â€” we'll handle the rest.</div>
+              <div style={{ fontSize:'0.85rem', color:'var(--color-text-muted)' }}>Strike a pose — we'll handle the rest.</div>
             </div>
 
             <div style={{ height:'1px', background:'var(--color-border)', margin:'20px 0' }} />
@@ -650,7 +648,7 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
                   style={{ cursor:'pointer', borderRadius:'var(--radius-md)', overflow:'hidden', border: modelConfig && modelConfig.id===man.id ? '2px solid var(--color-sage)' : '2px solid transparent', position:'relative', boxShadow:'var(--shadow-sm)' }}>
                   <img src={man.imageUrl} alt={man.label} style={{ width:'100%', aspectRatio:'2/3', objectFit:'cover', display:'block' }} />
                   {man.isHijabi && (
-                    <div style={{ position:'absolute', top:'6px', left:'50%', transform:'translateX(-50%)', background:'var(--color-sage)', color:'white', fontSize:'0.55rem', padding:'3px 7px', borderRadius:'var(--radius-pill)', whiteSpace:'nowrap', fontWeight:600 }}>ðŸŒ™ Hijab</div>
+                    <div style={{ position:'absolute', top:'6px', left:'50%', transform:'translateX(-50%)', background:'var(--color-sage)', color:'white', fontSize:'0.55rem', padding:'3px 7px', borderRadius:'var(--radius-pill)', whiteSpace:'nowrap', fontWeight:600 }}>🌙 Hijab</div>
                   )}
                   <div style={{ padding:'6px 8px', background:'var(--color-surface)' }}>
                     <div style={{ fontSize:'0.75rem', fontWeight:600, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{man.label}</div>
@@ -669,7 +667,7 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
         <div style={{ position:'fixed', inset:0, zIndex:110, background:'#111', display:'flex', flexDirection:'column' }}>
           <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'14px 16px', background:'rgba(0,0,0,0.8)' }}>
             <div style={{ color:'white', fontFamily:'var(--font-display)', fontSize:'1.1rem' }}>Compare Fits</div>
-            <button onClick={() => setShowCompare(false)} style={{ background:'none', border:'none', color:'white', fontSize:'1.5rem', cursor:'pointer' }}>Ã—</button>
+            <button onClick={() => setShowCompare(false)} style={{ background:'none', border:'none', color:'white', fontSize:'1.5rem', cursor:'pointer' }}>×</button>
           </div>
           <div style={{ display:'flex', flex:1, overflow:'hidden' }}>
             {[compareIndices[0], compareIndices[1]].map((idx, i) => {
@@ -691,12 +689,11 @@ function FittingRoom({ activeOutfit, modelConfig, generations, stylingOptions, o
   );
 }
 
-  </script>
-  <script type="text/babel">
-// AIStylist.jsx â€” Screen 3: AI Stylist Chat Drawer
-// No import/export â€” global Babel CDN scope
 
-const { useState: useStylistState, useEffect: useStylistEffect, useRef: useStylistRef } = React;
+// AIStylist.jsx — Screen 3: AI Stylist Chat Drawer
+// No import/export — global Babel CDN scope
+
+
 
 function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOutfit }) {
   const [messages, setMessages]           = useStylistState([]);
@@ -712,7 +709,7 @@ function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOu
     setMessages([{
       id: 1,
       role: 'ai',
-      text: "Salaam! I'm your AI stylist âœ¦ I've analyzed your rack of " + rackLen + " pieces. What vibe are we going for today? ðŸŒ¿",
+      text: "Salaam! I'm your AI stylist ✦ I've analyzed your rack of " + rackLen + " pieces. What vibe are we going for today? 🌿",
       recommendations: [],
       modesty_params: null,
       timestamp: new Date(),
@@ -793,9 +790,9 @@ function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOu
         <div style={{ padding:'12px 16px 0', flexShrink:0 }}>
           <div style={{ width:'40px', height:'4px', background:'var(--color-border)', borderRadius:'2px', margin:'0 auto 14px' }} />
           <div style={{ position:'relative' }}>
-            <div style={{ fontFamily:'var(--font-display)', fontSize:'1.6rem', fontStyle:'italic', color:'var(--color-text)' }}>âœ¦ AI Stylist</div>
+            <div style={{ fontFamily:'var(--font-display)', fontSize:'1.6rem', fontStyle:'italic', color:'var(--color-text)' }}>✦ AI Stylist</div>
             <div style={{ fontSize:'0.75rem', color:'var(--color-text-muted)', marginTop:'2px' }}>Powered by contextual fashion AI</div>
-            <button onClick={onClose} style={{ position:'absolute', top:0, right:0, background:'none', border:'none', fontSize:'1.4rem', cursor:'pointer', color:'var(--color-text-muted)' }}>Ã—</button>
+            <button onClick={onClose} style={{ position:'absolute', top:0, right:0, background:'none', border:'none', fontSize:'1.4rem', cursor:'pointer', color:'var(--color-text-muted)' }}>×</button>
           </div>
         </div>
 
@@ -807,7 +804,7 @@ function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOu
             <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
               {isModestMode && (
                 <span style={{ background:'var(--color-sage-light)', color:'var(--color-sage-dark)', borderRadius:'var(--radius-pill)', padding:'3px 10px', fontSize:'0.72rem', fontWeight:500 }}>
-                  ðŸŒ™ Modest filters active
+                  🌙 Modest filters active
                 </span>
               )}
               <div onClick={() => setIsModestMode(m => !m)}
@@ -819,11 +816,11 @@ function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOu
           {/* Row 2: Personality Slider */}
           <div style={{ display:'flex', alignItems:'center', gap:'8px' }}>
             <span style={{ fontSize:'0.82rem', fontWeight:500, flexShrink:0, color:'var(--color-text)' }}>Style Voice:</span>
-            <span style={{ fontSize:'0.75rem', color: personalityMode==='hype' ? 'var(--color-sage-dark)' : 'var(--color-text-muted)', fontWeight: personalityMode==='hype'?600:400 }}>ðŸŒ¸ Hype</span>
+            <span style={{ fontSize:'0.75rem', color: personalityMode==='hype' ? 'var(--color-sage-dark)' : 'var(--color-text-muted)', fontWeight: personalityMode==='hype'?600:400 }}>🌸 Hype</span>
             <input type="range" min={0} max={1} step={1} value={personalityMode==='hype' ? 0 : 1}
               onChange={e => setPersonality(e.target.value === '0' ? 'hype' : 'honest')}
               style={{ flex:1, accentColor:'var(--color-sage)' }} />
-            <span style={{ fontSize:'0.75rem', color: personalityMode==='honest' ? 'var(--color-sage-dark)' : 'var(--color-text-muted)', fontWeight: personalityMode==='honest'?600:400 }}>âœ‚ï¸ Honest</span>
+            <span style={{ fontSize:'0.75rem', color: personalityMode==='honest' ? 'var(--color-sage-dark)' : 'var(--color-text-muted)', fontWeight: personalityMode==='honest'?600:400 }}>✂️ Honest</span>
           </div>
         </div>
 
@@ -865,7 +862,7 @@ function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOu
                   {/* Modesty params */}
                   {msg.modesty_params && (
                     <div style={{ fontSize:'0.72rem', color:'var(--color-sage-dark)', marginTop:'10px', fontStyle:'italic', lineHeight:1.5 }}>
-                      âœ¦ Filtered by: {msg.modesty_params}
+                      ✦ Filtered by: {msg.modesty_params}
                     </div>
                   )}
                   <div style={{ fontSize:'0.65rem', color:'var(--color-text-muted)', marginTop:'6px' }}>{formatTime(msg.timestamp)}</div>
@@ -899,7 +896,7 @@ function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOu
 
         {/* Input Bar */}
         <div style={{ flexShrink:0, padding:'10px 16px 16px', display:'flex', alignItems:'center', gap:'8px', background:'var(--color-surface)' }}>
-          <span style={{ fontSize:'1.2rem', color:'var(--color-text-muted)', cursor:'pointer', flexShrink:0 }}>ðŸŽ™</span>
+          <span style={{ fontSize:'1.2rem', color:'var(--color-text-muted)', cursor:'pointer', flexShrink:0 }}>🎙</span>
           <input
             type="text"
             value={inputText}
@@ -910,7 +907,7 @@ function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOu
           />
           <button onClick={handleSend}
             style={{ width:'40px', height:'40px', borderRadius:'50%', background:'var(--color-sage)', color:'white', border:'none', fontSize:'1.1rem', cursor:'pointer', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-            â†’
+            →
           </button>
         </div>
       </div>
@@ -918,12 +915,11 @@ function AIStylist({ isOpen, onClose, rack, activeOutfit, aiResponses, onAddToOu
   );
 }
 
-  </script>
-  <script type="text/babel">
-// App.jsx â€” Global App Shell & State Manager
-// No import/export â€” global Babel CDN scope
 
-const { useState: useAppState, useCallback: useAppCallback } = React;
+// App.jsx — Global App Shell & State Manager
+// No import/export — global Babel CDN scope
+
+
 
 function App() {
   const [universalRack, setUniversalRack]   = useAppState(INITIAL_STATE.universalRack);
@@ -955,7 +951,7 @@ function App() {
   }, []);
 
   const handleImportScreenshot = useAppCallback(({ file, dataUrl }) => {
-    // The dataUrl IS the image â€” use it directly so the item shows the real screenshot
+    // The dataUrl IS the image — use it directly so the item shows the real screenshot
     const name = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ') || 'Screenshot Item';
     const newItem = {
       id: 'screenshot-' + Date.now(),
@@ -970,7 +966,7 @@ function App() {
       isScreenshot: true,
     };
     setUniversalRack(prev => [newItem, ...prev]);
-    showToast('Screenshot added to your rack! ðŸ“¸');
+    showToast('Screenshot added to your rack! 📸');
   }, [showToast]);
 
   const handleImportUrl = useAppCallback((url) => {
@@ -987,7 +983,7 @@ function App() {
       sourceUrl: url,
     };
     setUniversalRack(prev => [newItem, ...prev]);
-    showToast('Item imported from ' + domain + '! ðŸŽ‰');
+    showToast('Item imported from ' + domain + '! 🎉');
   }, [showToast]);
 
   const handleUploadOwn = useAppCallback((file) => {
@@ -1003,7 +999,7 @@ function App() {
       sourceUrl: '',
     };
     setVirtualCloset(prev => [newItem, ...prev]);
-    showToast('Added to your closet! ðŸ‘—');
+    showToast('Added to your closet! 👗');
   }, [showToast]);
 
   const handleChangeModel = useAppCallback((config) => {
@@ -1030,7 +1026,7 @@ function App() {
   }, [activeOutfit]);
 
   const handleShopLook = useAppCallback(() => {
-    showToast('Opening checkout for ' + activeOutfit.length + ' items... ðŸ›ï¸');
+    showToast('Opening checkout for ' + activeOutfit.length + ' items... 🛍️');
   }, [activeOutfit, showToast]);
 
   const combinedRack = [...universalRack, ...virtualCloset];
@@ -1069,7 +1065,7 @@ function App() {
         />
       )}
 
-      {/* AI Stylist â€” always rendered, slides in/out */}
+      {/* AI Stylist — always rendered, slides in/out */}
       <AIStylist
         isOpen={isStylistOpen}
         onClose={() => setIsStylistOpen(false)}
@@ -1082,9 +1078,9 @@ function App() {
       {/* Bottom Nav */}
       <div style={{ position:'fixed', bottom:0, left:0, right:0, maxWidth:'430px', margin:'0 auto', height:'56px', background:'var(--color-surface)', borderTop:'1px solid var(--color-border)', display:'flex', zIndex:50, fontFamily:'var(--font-body)' }}>
         {[
-          { icon:'ðŸ ', label:'Rack', screen:'rack', disabled:false, action: () => setCurrentScreen('rack') },
-          { icon:'ðŸ‘—', label:'Try On', screen:'fitting-room', disabled: activeOutfit.length === 0, action: () => { if (activeOutfit.length > 0) setCurrentScreen('fitting-room'); } },
-          { icon:'âœ¦', label:'Stylist', screen:null, disabled:false, action: () => setIsStylistOpen(true), isDisplay:true },
+          { icon:'🏠', label:'Rack', screen:'rack', disabled:false, action: () => setCurrentScreen('rack') },
+          { icon:'👗', label:'Try On', screen:'fitting-room', disabled: activeOutfit.length === 0, action: () => { if (activeOutfit.length > 0) setCurrentScreen('fitting-room'); } },
+          { icon:'✦', label:'Stylist', screen:null, disabled:false, action: () => setIsStylistOpen(true), isDisplay:true },
         ].map(tab => {
           const isActive = tab.screen ? currentScreen === tab.screen : isStylistOpen;
           return (
@@ -1109,10 +1105,10 @@ function App() {
   );
 }
 
-  </script>
-  <script type="text/babel">
-    const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(React.createElement(App));
+// Mount
+const rootEl = document.getElementById('root');
+const reactRoot = ReactDOM.createRoot(rootEl);
+reactRoot.render(React.createElement(App));
   </script>
 </body>
 </html>
